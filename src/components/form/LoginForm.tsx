@@ -4,12 +4,17 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+import Link from "next/link"
+import { GoogleSignInButton } from "@/components/GoogleSignInButton"
+import { Chrome } from "lucide-react"
 
 const FormSchema = z.object({
-  email: z.string(),
-  password: z.string()
+  email: z.string().min(1, "O email é obrigatório!").email("Email inválido."),
+  password: z.string().min(1, "A senha é obrigatória!").min(8, "A senha deve ter no minímo 8 caracteres."),
+  remember: z.boolean().default(false).optional(),
 })
 
 export function LoginForm() {
@@ -17,12 +22,13 @@ export function LoginForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       email: "",
-      password: ""
+      password: "",
+      remember: false
     },
   })
 
-  function onSubmit() {
-    console.log('form')
+  function onSubmit(values: z.infer<typeof FormSchema>) {
+    console.log(values)
   }
 
   return (
@@ -65,8 +71,50 @@ export function LoginForm() {
             )}
           />
 
-          <Button className="w-full" type="submit">Submit</Button>
+          <FormField
+            control={form.control}
+            name="remember"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="w-full flex justify-between leading-none">
+                  <FormLabel>
+                    Lembre-se de mim.
+                  </FormLabel>
+
+                  <FormLabel>
+                    <Link
+                      href="/"
+                      className="text-blue-600 hover:underline"
+                    >
+                      Esqueceu sua senha?
+                    </Link>
+                  </FormLabel>
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <Button className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" type="submit">Entrar</Button>
         </form>
+
+        <GoogleSignInButton>
+          <Chrome />
+          Logar com o Google
+        </GoogleSignInButton>
+
+        <div className="flex gap-2">
+          <p className="text-gray-500">Não tem uma conta?</p>
+
+          <Link href="/sign-up" className="text-blue-600 hover:underline">
+              Cadastre-se
+          </Link>
+        </div>
       </Form>
     </div>
   )
