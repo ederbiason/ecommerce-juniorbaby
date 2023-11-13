@@ -1,12 +1,9 @@
-import { ProductsTable } from "@/components/ProductsTable";
+import { Menu } from "@/components/Menu";
 
-
-
-export default function Home() {
+export default function Home({ children }: { children: React.ReactNode }) {
   return (
-    <div className="text-5xl">
+    <div className="text-xl">
       Home
-      <ProductsTable />
     </div>
   )
 }
