@@ -10,8 +10,8 @@ import {
 
 export function ProductsTable() {
     return (
-        <div>
-            <Table>
+        <div className="mt-14">
+            <Table className="">
                 <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                     <TableRow>
