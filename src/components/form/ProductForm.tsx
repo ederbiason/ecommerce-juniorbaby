@@ -42,6 +42,8 @@ export function ProductForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 flex flex-col">
+                {/* upload de imagem */}
+
                 <FormField
                     control={form.control}
                     name="name"

@@ -24,7 +24,7 @@ import { ProductForm } from "@/components/form/ProductForm"
 
 export function ProductsTable() {
     return (
-        <div className="mt-14">
+        <div className="mt-14 bg-white">
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
                 <h1 className="text-gray-800 text-xl font-semibold">
                     Produtos
