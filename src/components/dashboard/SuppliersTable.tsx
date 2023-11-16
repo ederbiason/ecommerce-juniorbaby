@@ -18,29 +18,29 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { ListFilter } from "lucide-react"
-import { ProductForm } from "@/components/form/ProductForm"
+import { SupplierForm } from "@/components/form/SupplierForm"
 
-export function ProductsTable() {
+export function SuppliersTable() {
     return (
         <div className="mt-14 bg-white">
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
                 <h1 className="text-gray-800 text-xl font-semibold">
-                    Produtos
+                    Fornecedores
                 </h1>
 
                 <div className="flex items-center justify-center gap-4">
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button className="bg-blue-600 hover:bg-blue-800">
-                                Adicionar produto
+                                Adicionar fornecedor
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
-                                <DialogTitle>Novo produto</DialogTitle>
+                                <DialogTitle>Novo fornecedor</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4 py-4 ">
-                                <ProductForm />
+                                <SupplierForm />
 
                                 {/* <div className="grid grid-cols-4 items-center gap-4">
                                     <Label htmlFor="name" className="text-right">
@@ -142,59 +142,58 @@ export function ProductsTable() {
             </div>
 
             <Table className="">
-                <TableCaption>Lista dos produtos</TableCaption>
+                <TableCaption>Lista dos fornecedores</TableCaption>
                 <TableHeader>
                     <TableRow>
+                        <TableHead>Nome</TableHead>
                         <TableHead>Produto</TableHead>
-                        <TableHead>Preço</TableHead>
-                        <TableHead className="">Quantidade</TableHead>
-                        <TableHead>Qtd. mínima</TableHead>
-                        <TableHead>Validade</TableHead>
-                        <TableHead>Disponibilidade</TableHead>
+                        <TableHead className="">Contato</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>CNPJ/CPF</TableHead>
+                        <TableHead>Status</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     <TableRow>
-                        <TableCell className="font-medium">Bola de futebol</TableCell>
-                        <TableCell className="">R$ 430</TableCell>
-                        <TableCell>43</TableCell>
-                        <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
-                        <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="font-medium">Renan de Souza</TableCell>
+                        <TableCell className="">Bola de futebol</TableCell>
+                        <TableCell>4452324567</TableCell>
+                        <TableCell>renansouza@hotmail.com</TableCell>
+                        <TableCell>123123123123</TableCell>
+                        <TableCell className="text-green-500">Ativo</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className="font-medium">Bola de futebol</TableCell>
-                        <TableCell>R$ 430</TableCell>
-                        <TableCell>43</TableCell>
-                        <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
-                        <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="font-medium">Renan de Souza</TableCell>
+                        <TableCell className="">Bola de futebol</TableCell>
+                        <TableCell>4452324567</TableCell>
+                        <TableCell>renansouza@hotmail.com</TableCell>
+                        <TableCell>123123123123</TableCell>
+                        <TableCell className="text-green-500">Ativo</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className="font-medium">Bola de futebol</TableCell>
-                        <TableCell>R$ 430</TableCell>
-                        <TableCell>43</TableCell>
-                        <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
-                        <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="font-medium">Renan de Souza</TableCell>
+                        <TableCell className="">Bola de futebol</TableCell>
+                        <TableCell>4452324567</TableCell>
+                        <TableCell>renansouza@hotmail.com</TableCell>
+                        <TableCell>123123123123</TableCell>
+                        <TableCell className="text-green-500">Ativo</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className="font-medium">Bola de futebol</TableCell>
-                        <TableCell>R$ 430</TableCell>
-                        <TableCell>43</TableCell>
-                        <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
-                        <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="font-medium">Renan de Souza</TableCell>
+                        <TableCell className="">Bola de futebol</TableCell>
+                        <TableCell>4452324567</TableCell>
+                        <TableCell>renansouza@hotmail.com</TableCell>
+                        <TableCell>123123123123</TableCell>
+                        <TableCell className="text-green-500">Ativo</TableCell>
                     </TableRow>
                     <TableRow>
-                        <TableCell className="font-medium">Bola de futebol</TableCell>
-                        <TableCell>R$ 430</TableCell>
-                        <TableCell>43</TableCell>
-                        <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
-                        <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="font-medium">Renan de Souza</TableCell>
+                        <TableCell className="">Bola de futebol</TableCell>
+                        <TableCell>4452324567</TableCell>
+                        <TableCell>renansouza@hotmail.com</TableCell>
+                        <TableCell>123123123123</TableCell>
+                        <TableCell className="text-green-500">Ativo</TableCell>
                     </TableRow>
-
                 </TableBody>
             </Table>
 
