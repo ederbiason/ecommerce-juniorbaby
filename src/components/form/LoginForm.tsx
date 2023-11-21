@@ -103,7 +103,9 @@ export function LoginForm() {
           <Button className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" type="submit">Entrar</Button>
         </form>
 
-        <GoogleSignInButton>
+        <GoogleSignInButton
+          
+        >
           <Chrome />
           Logar com o Google
         </GoogleSignInButton>

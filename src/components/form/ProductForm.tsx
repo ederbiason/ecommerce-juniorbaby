@@ -19,6 +19,8 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
+import { DialogClose } from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
 
 const FormSchema = z.object({
     name: z.string(),
@@ -150,6 +152,20 @@ export function ProductForm() {
                         </FormItem>
                     )}
                 />
+
+                <div className="flex items-center justify-end gap-3">
+                    <DialogClose>
+                        <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
+                            Cancelar
+                        </Button>
+                    </DialogClose>
+                    <Button
+                        type="submit"
+                        className="bg-blue-600 hover:bg-blue-800"
+                    >
+                        Adicionar
+                    </Button>
+                </div>
             </form>
         </Form>
     )

@@ -39,7 +39,7 @@ export function SuppliersTable() {
                             <DialogHeader>
                                 <DialogTitle>Novo fornecedor</DialogTitle>
                             </DialogHeader>
-                            <div className="grid gap-4 py-4 ">
+                            <div className="grid gap-4 pt-4">
                                 <SupplierForm />
 
                                 {/* <div className="grid grid-cols-4 items-center gap-4">
@@ -113,20 +113,6 @@ export function SuppliersTable() {
                                     />
                                 </div> */}
                             </div>
-                            <DialogFooter>
-                                <DialogClose>
-                                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
-                                        Cancelar
-                                    </Button>
-                                </DialogClose>
-                                
-                                <Button 
-                                    type="submit"
-                                    className="bg-blue-600 hover:bg-blue-800"
-                                >
-                                    Adicionar
-                                </Button>
-                            </DialogFooter>
                         </DialogContent>
                     </Dialog>
 
