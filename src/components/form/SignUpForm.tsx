@@ -4,12 +4,15 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Form, FormField, FormItem, FormControl, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+import axios from "axios"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import Link from "next/link"
 import { GoogleSignInButton } from "@/components/GoogleSignInButton"
 import { Chrome } from "lucide-react"
+import { useState } from "react"
+import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 const FormSchema = z.object({
     name: z.string().min(1, "O nome é obrigatório!"),
@@ -19,6 +22,9 @@ const FormSchema = z.object({
 })
 
 export function SignUpForm() {
+    const [loading, setLoading] = useState(false)
+    const router = useRouter()
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -29,8 +35,26 @@ export function SignUpForm() {
         },
     })
 
-    function onSubmit(values: z.infer<typeof FormSchema>) {
-        console.log(values)
+    async function onSubmit(values: z.infer<typeof FormSchema>) {
+        try {
+            setLoading(true)
+
+            await axios.post('/api/auth/signup', values)
+            toast({
+                title: 'Sucesso',
+                description: 'Cadastro feito com sucesso, porfavor faça login para continuar.',
+            })
+
+            router.push("/login")
+        } catch (error: any) {
+            toast({
+                title: 'Error',
+                description: "Usuário já existente!",
+                variant: "destructive"
+            })
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -87,7 +111,13 @@ export function SignUpForm() {
                         )}
                     />
 
-                    <Button className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" type="submit">Cadastrar</Button>
+                    <Button 
+                        className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" 
+                        type="submit"
+                        disabled={loading}
+                    >
+                        Cadastrar
+                    </Button>
                 </form>
 
                 <GoogleSignInButton>
