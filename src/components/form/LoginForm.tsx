@@ -10,6 +10,10 @@ import * as z from "zod"
 import Link from "next/link"
 import { GoogleSignInButton } from "@/components/GoogleSignInButton"
 import { Chrome } from "lucide-react"
+import { useState } from "react"
+import axios from "axios"
+import { useRouter } from "next/navigation"
+import { toast } from "@/components/ui/use-toast"
 
 const FormSchema = z.object({
   email: z.string().min(1, "O email é obrigatório!").email("Email inválido."),
@@ -18,6 +22,9 @@ const FormSchema = z.object({
 })
 
 export function LoginForm() {
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -27,8 +34,26 @@ export function LoginForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof FormSchema>) {
+    try {
+      setLoading(true)
+
+      await axios.post("/api/auth/login", values)
+
+      toast({
+        title: 'Sucesso',
+        description: 'Login realizado com sucesso!',
+      })
+      router.push("/")
+    } catch (error: any) {
+      toast({
+        title: 'Erro',
+        description: "Os dados inseridos estão inválidos.",
+        variant: 'destructive'
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -100,11 +125,17 @@ export function LoginForm() {
             )}
           />
 
-          <Button className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" type="submit">Entrar</Button>
+          <Button
+            className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md"
+            type="submit"
+            disabled={loading}
+          >
+            Entrar
+          </Button>
         </form>
 
         <GoogleSignInButton
-          
+
         >
           <Chrome />
           Logar com o Google
@@ -114,7 +145,7 @@ export function LoginForm() {
           <p className="text-gray-500">Não tem uma conta?</p>
 
           <Link href="/sign-up" className="text-blue-600 hover:underline">
-              Cadastre-se
+            Cadastre-se
           </Link>
         </div>
       </Form>
