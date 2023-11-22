@@ -10,10 +10,14 @@ export function LayoutProvider({children}: {children: ReactNode}) {
 
   return (
     <div className="w-full">
-        {isPrivatePage && 
-          <Navbar />
-        }
-        {children}
+        {isPrivatePage && (
+          <>
+            <Navbar />
+            {children}
+          </>
+        )}
+        
+        {!isPrivatePage && children}
     </div>
   )
 }
