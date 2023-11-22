@@ -7,7 +7,7 @@ import loja3 from "../../../public/loja-3.jpg"
 
 export function Stores() {
   return (
-    <div className="mt-20 m-14 bg-white rounded-md p-5">
+    <div className="m-14 bg-white rounded-md p-5">
         <div className=" flex items-center justify-between">
             <h1 className="text-gray-800 text-xl font-semibold">Gerenciar lojas</h1>
 

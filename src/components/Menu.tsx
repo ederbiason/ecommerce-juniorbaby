@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function Menu() {
   return (
-    <div className="bg-zinc-100 flex w-1/5 h-screen flex-col gap-7 mt-14 pt-7 px-6">
+    <div className="bg-zinc-100 flex w-1/5 h-screen flex-col gap-7 p-6">
         <Link href="/products" className="flex items-center gap-4">
             <PackageSearch />
             Produtos

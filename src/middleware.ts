@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
     let isPublicRoute = false 
 
-    if(request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/signup") {
+    if(request.nextUrl.pathname === "/login" || request.nextUrl.pathname === "/sign-up") {
         isPublicRoute = true
     }
 
@@ -23,5 +23,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/login', '/signup', '/'],
+    matcher: ['/login', '/sign-up', '/'],
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
+import { LayoutProvider } from '@/providers/LayoutProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,8 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <main className="h-screen flex flex-col justify-center items-center">
-          {children}
+        <main className="">
+          <LayoutProvider>
+            {children}
+          </LayoutProvider>
+  
           <Toaster  />
         </main>
       </body>

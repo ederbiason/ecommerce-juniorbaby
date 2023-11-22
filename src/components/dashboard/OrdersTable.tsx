@@ -22,7 +22,7 @@ import { OrderForm } from "@/components/form/OrderForm"
 
 export function OrdersTable() {
     return (
-        <div className="mt-14 bg-white">
+        <div className="bg-white">
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
                 <h1 className="text-gray-800 text-xl font-semibold">
                     Pedidos
