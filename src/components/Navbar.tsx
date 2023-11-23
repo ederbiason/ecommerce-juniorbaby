@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/popover"
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export interface CurrentUserProps {
     _id: Id
@@ -37,6 +38,7 @@ export interface UpdatedAt {
 }
 
 export function Navbar() {
+    const router = useRouter()
     const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(null)
 
     const getCurrentUser = async () => {
@@ -58,6 +60,10 @@ export function Navbar() {
 
     console.log(currentUser)
 
+    const onLogout = async () => {
+
+    }
+
     return (
         <div className="bg-zinc-100 p-3 border-b border-s-zinc-200 w-full z-10 px-8">
             <div className=" flex items-center justify-between">
@@ -68,7 +74,9 @@ export function Navbar() {
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    <ShoppingCart />
+                    <ShoppingCart 
+                        className="cursor-pointer"
+                    />
 
                     <Popover>
                         <PopoverTrigger>
@@ -78,14 +86,20 @@ export function Navbar() {
                                 </span>
                             </div>
                         </PopoverTrigger>
-                        <PopoverContent className="w-fit">
+                        <PopoverContent className="w-fit font-bold">
                             <div className="flex flex-col gap-3">
-                                <Button className="flex gap-3 bg-blue-500 hover:bg-blue-400">
+                                <Button 
+                                    className="flex gap-3 bg-blue-500 hover:bg-blue-400"
+                                    onClick={(() => router.push("/profile"))}
+                                >
                                     <User2 />
                                     Perfil
                                 </Button>
 
-                                <Button className="flex gap-3 bg-red-500 hover:bg-red-400">
+                                <Button 
+                                    className="flex gap-3 bg-red-500 hover:bg-red-400"
+                                    onClick={(() => onLogout())}
+                                >
                                     <LogOut />
                                     Sair
                                 </Button>
