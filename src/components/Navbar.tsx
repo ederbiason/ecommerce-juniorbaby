@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover"
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export interface CurrentUserProps {
     _id: Id
@@ -39,6 +39,9 @@ export interface UpdatedAt {
 
 export function Navbar() {
     const router = useRouter()
+    const pathname = usePathname()
+    const isPrivatePage = pathname !== '/login' && pathname !== '/sign-up'
+
     const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(null)
 
     const getCurrentUser = async () => {
@@ -55,13 +58,29 @@ export function Navbar() {
     }
 
     useEffect(() => {
-        getCurrentUser()
-    }, [])
-
-    console.log(currentUser)
+        if (isPrivatePage) {
+            getCurrentUser()
+        }
+    }, [pathname, isPrivatePage])
 
     const onLogout = async () => {
+        try {
+            await axios.get("/api/auth/logout")
 
+            setCurrentUser(null)
+            toast({
+                title: 'Logout',
+                description: "Deslogado com sucesso.",
+            })
+
+            router.push("/login")
+        } catch (error: any) {
+            toast({
+                title: 'Erro',
+                description: error.response.data.message,
+                variant: 'destructive'
+            })    
+        }
     }
 
     return (
