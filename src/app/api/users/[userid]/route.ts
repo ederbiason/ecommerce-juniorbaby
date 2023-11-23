@@ -1,19 +1,36 @@
 import { NextRequest, NextResponse } from "next/server"
+import User from "@/models/userModel"
+import bcryptjs from "bcryptjs"
+import { connectDB } from "@/app/configs/dbConfig"
+connectDB()
 
 interface Params {
     userid: string
 }
 
-export async function GET(request: NextRequest, {params}: {params: Params}) {
-    const userid = params.userid
+export async function PUT(request: NextRequest, {params}: {params: Params}) {
+    
+    try {
+        const userId = params.userid
 
-    return NextResponse.json({
-        success: true,
-        data: [
-            {
-                id: userid,
-                name: "Eder"
-            }
-        ]
-    })
+        const reqBody = await request.json()
+        const user = await User.findOne({email: reqBody.email})
+        const isMatch = await bcryptjs.compare(
+            reqBody.password,
+            user.password as string
+        )
+
+        if (!isMatch) {
+            return NextResponse.json({message: "Senha incorreta!"}, {status: 401})
+        }
+
+        const salt = await bcryptjs.genSalt(10)
+        const hashedPassword = await bcryptjs.hash(reqBody.newPassword, salt)
+        reqBody.password = hashedPassword
+        await User.findByIdAndUpdate(userId, reqBody)
+
+        return NextResponse.json({message: "Senha trocada com sucesso!"}, {status: 200})
+    } catch (error: any) {
+        return NextResponse.json({message: error.message}, {status: 500})
+    }
 }

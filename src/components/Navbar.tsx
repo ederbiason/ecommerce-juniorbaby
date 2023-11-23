@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { LogOut, ShoppingCart, User2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
     Popover,
     PopoverContent,
@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { SetCurrentUser } from "@/redux/userSlice";
+import Link from "next/link";
 
 export interface CurrentUserProps {
     _id: Id
@@ -90,9 +91,11 @@ export function Navbar() {
         <div className="bg-zinc-100 p-3 border-b border-s-zinc-200 w-full z-10 px-8">
             <div className=" flex items-center justify-between">
                 <div className="">
-                    <h1 className="text-2xl font-bold">
-                        Sports Store
-                    </h1>
+                    <Link href="/">
+                        <h1 className="text-2xl font-bold">
+                            Sports Store
+                        </h1>
+                    </Link>
                 </div>
 
                 <div className="flex gap-5 items-center">
