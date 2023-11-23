@@ -11,6 +11,8 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { Button } from "./ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { SetCurrentUser } from "@/redux/userSlice";
 
 export interface CurrentUserProps {
     _id: Id
@@ -41,13 +43,13 @@ export function Navbar() {
     const router = useRouter()
     const pathname = usePathname()
     const isPrivatePage = pathname !== '/login' && pathname !== '/sign-up'
-
-    const [currentUser, setCurrentUser] = useState<CurrentUserProps | null>(null)
+    const dispatch = useDispatch()
+    const { currentUser } = useSelector((state: any) => state.user)
 
     const getCurrentUser = async () => {
         try {
             const response = await axios.get('/api/auth/currentuser')
-            setCurrentUser(response.data.data)
+            dispatch(SetCurrentUser(response.data.data))
         } catch (error: any) {
             toast({
                 title: 'Erro',
@@ -61,13 +63,14 @@ export function Navbar() {
         if (isPrivatePage) {
             getCurrentUser()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname, isPrivatePage])
 
     const onLogout = async () => {
         try {
             await axios.get("/api/auth/logout")
 
-            setCurrentUser(null)
+            dispatch(SetCurrentUser(null))
             toast({
                 title: 'Logout',
                 description: "Deslogado com sucesso.",
