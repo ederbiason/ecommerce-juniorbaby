@@ -1,5 +1,6 @@
 "use client"
 
+import { Loader } from "@/components/Loader"
 import { Navbar } from "@/components/Navbar"
 import { usePathname } from "next/navigation"
 import { ReactNode } from "react"
