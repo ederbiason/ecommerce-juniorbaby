@@ -19,16 +19,15 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { DialogClose } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 
 const FormSchema = z.object({
     name: z.string(),
-    id: z.string(),
+    description: z.string(),
     category: z.string({ required_error: "Por favor selecione uma categoria." }),
     price: z.number().positive(),
     quantity: z.number().positive(),
-    validity: z.string(),
     mintreshold: z.number().positive()
 })
 
@@ -43,31 +42,51 @@ export function ProductForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 flex flex-col">
-                {/* upload de imagem */}
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 mt-3">
+                <div className="col-span-4">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Nome</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Insira o nome do produto" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="col-span-4">
+                    <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Descrição</FormLabel>
+                                <FormControl>
+                                    <Textarea
+                                        placeholder="Insira a descrição do produto"
+                                        className="resize-none"
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
 
                 <FormField
                     control={form.control}
-                    name="name"
+                    name="price"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-4">
-                            <FormLabel>Nome do produto</FormLabel>
+                        <FormItem>
+                            <FormLabel>Preço</FormLabel>
                             <FormControl>
-                                <Input type="text" placeholder="Insira o nome do produto" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="id"
-                    render={({ field }) => (
-                        <FormItem className="flex items-center gap-9">
-                            <FormLabel>ID do produto</FormLabel>
-                            <FormControl>
-                                <Input type="text" placeholder="Insira o ID do produto" {...field} />
+                                <Input type="number" placeholder="Insira o preço do produto" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -78,7 +97,7 @@ export function ProductForm() {
                     control={form.control}
                     name="category"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-9">
+                        <FormItem>
                             <FormLabel>Categoria</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
@@ -99,40 +118,12 @@ export function ProductForm() {
 
                 <FormField
                     control={form.control}
-                    name="price"
-                    render={({ field }) => (
-                        <FormItem className="flex items-center gap-6">
-                            <FormLabel>Preço de compra</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="Insira o preço do produto" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
                     name="quantity"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-7">
+                        <FormItem>
                             <FormLabel>Quantidade</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Insira a quantidade" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="validity"
-                    render={({ field }) => (
-                        <FormItem className="flex items-center gap-12">
-                            <FormLabel>Validade</FormLabel>
-                            <FormControl>
-                                <Input type="text" placeholder="Insira a validade" {...field} />
+                                <Input type="number" placeholder="Insira a quantidade de estoque" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -143,10 +134,10 @@ export function ProductForm() {
                     control={form.control}
                     name="mintreshold"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-12">
+                        <FormItem>
                             <FormLabel>Qtd. mínima</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Insira a qtd. mínima" {...field} />
+                                <Input type="number" placeholder="Insira a qtd. mínima de estoque" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -154,11 +145,10 @@ export function ProductForm() {
                 />
 
                 <div className="flex items-center justify-end gap-3">
-                    <DialogClose>
-                        <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
-                            Cancelar
-                        </Button>
-                    </DialogClose>
+                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
+                        Cancelar
+                    </Button>
+
                     <Button
                         type="submit"
                         className="bg-blue-600 hover:bg-blue-800"

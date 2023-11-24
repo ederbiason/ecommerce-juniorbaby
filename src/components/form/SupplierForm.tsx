@@ -75,29 +75,6 @@ export function SupplierForm() {
 
                 <FormField
                     control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                        <FormItem className="flex items-center gap-9">
-                            <FormLabel>Categoria</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Selecione uma categoria" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    <SelectItem value="suplemento">Suplemento</SelectItem>
-                                    <SelectItem value="futebol">Futebol</SelectItem>
-                                    <SelectItem value="natacao">Natação</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
                     name="email"
                     render={({ field }) => (
                         <FormItem className="flex items-center gap-[68px]">
