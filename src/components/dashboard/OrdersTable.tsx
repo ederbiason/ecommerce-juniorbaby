@@ -10,9 +10,7 @@ import {
 import { Button } from "@/components/ui/button"
 import {
     Dialog,
-    DialogClose,
     DialogContent,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -41,77 +39,6 @@ export function OrdersTable() {
                             </DialogHeader>
                             <div className="grid gap-4 pt-4 ">
                                 <OrderForm />
-
-                                {/* <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="name" className="text-right">
-                                        Nome do produto
-                                    </Label>
-                                    <Input
-                                        id="name"
-                                        className="col-span-3"
-                                        placeholder="Insira o nome do produto"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="id" className="text-right">
-                                        ID do produto
-                                    </Label>
-                                    <Input
-                                        id="id"
-                                        className="col-span-3"
-                                        placeholder="Insira o ID do produto"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="category" className="text-right">
-                                        Categoria
-                                    </Label>
-                                    <Input
-                                        id="category"
-                                        className="col-span-3"
-                                        placeholder="Selecione a categoria"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="price" className="text-right">
-                                        Preço de compra
-                                    </Label>
-                                    <Input
-                                        id="price"
-                                        className="col-span-3"
-                                        placeholder="Insira o preço de compra"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="quantity" className="text-right">
-                                        Quantidade
-                                    </Label>
-                                    <Input
-                                        id="quantity"
-                                        className="col-span-3"
-                                        placeholder="Insira a quantidade"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="validity" className="text-right">
-                                        Validade
-                                    </Label>
-                                    <Input
-                                        id="validity"
-                                        className="col-span-3"
-                                        placeholder="Insira a validade"
-                                    />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                    <Label htmlFor="minthreshold" className="text-right">
-                                        Qtd. mínima
-                                    </Label>
-                                    <Input
-                                        id="minthreshold"
-                                        className="col-span-3"
-                                        placeholder="Insira a qtd. mínima"
-                                    />
-                                </div> */}
                             </div>
                         </DialogContent>
                     </Dialog>
