@@ -17,7 +17,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ListFilter } from "lucide-react"
+import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import { OrderForm } from "@/components/form/OrderForm"
 
 export function OrdersTable() {
@@ -136,7 +136,7 @@ export function OrdersTable() {
                         <TableHead className="">Quantidade</TableHead>
                         <TableHead>ID do pedido</TableHead>
                         <TableHead>Data de entrega</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -146,7 +146,14 @@ export function OrdersTable() {
                         <TableCell>45</TableCell>
                         <TableCell>64032</TableCell>
                         <TableCell>11/12/2023</TableCell>
-                        <TableCell className="text-green-500">Confirmado</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
@@ -154,7 +161,14 @@ export function OrdersTable() {
                         <TableCell>45</TableCell>
                         <TableCell>64032</TableCell>
                         <TableCell>11/12/2023</TableCell>
-                        <TableCell className="text-green-500">Confirmado</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
@@ -162,7 +176,14 @@ export function OrdersTable() {
                         <TableCell>45</TableCell>
                         <TableCell>64032</TableCell>
                         <TableCell>11/12/2023</TableCell>
-                        <TableCell className="text-green-500">Confirmado</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
@@ -170,7 +191,14 @@ export function OrdersTable() {
                         <TableCell>45</TableCell>
                         <TableCell>64032</TableCell>
                         <TableCell>11/12/2023</TableCell>
-                        <TableCell className="text-green-500">Confirmado</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
@@ -178,7 +206,14 @@ export function OrdersTable() {
                         <TableCell>45</TableCell>
                         <TableCell>64032</TableCell>
                         <TableCell>11/12/2023</TableCell>
-                        <TableCell className="text-green-500">Confirmado</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>

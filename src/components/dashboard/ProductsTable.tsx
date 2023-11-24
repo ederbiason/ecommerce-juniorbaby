@@ -17,7 +17,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ListFilter } from "lucide-react"
+import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import { ProductForm } from "@/components/form/ProductForm"
 
 export function ProductsTable() {
@@ -135,8 +135,8 @@ export function ProductsTable() {
                         <TableHead>Preço</TableHead>
                         <TableHead className="">Quantidade</TableHead>
                         <TableHead>Qtd. mínima</TableHead>
-                        <TableHead>Validade</TableHead>
                         <TableHead>Disponibilidade</TableHead>
+                        <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -145,40 +145,75 @@ export function ProductsTable() {
                         <TableCell className="">R$ 430</TableCell>
                         <TableCell>43</TableCell>
                         <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
                         <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
                         <TableCell>R$ 430</TableCell>
                         <TableCell>43</TableCell>
                         <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
                         <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
                         <TableCell>R$ 430</TableCell>
                         <TableCell>43</TableCell>
                         <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
                         <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
                         <TableCell>R$ 430</TableCell>
                         <TableCell>43</TableCell>
                         <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
                         <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Bola de futebol</TableCell>
                         <TableCell>R$ 430</TableCell>
                         <TableCell>43</TableCell>
                         <TableCell>12</TableCell>
-                        <TableCell>**/**/****</TableCell>
                         <TableCell className="text-green-500">Disponível</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
 
                 </TableBody>

@@ -10,7 +10,7 @@ import {
 
 export function Reports() {
   return (
-    <div className="mt-20 flex flex-col gap-14 ">
+    <div className="my-10 flex flex-col gap-14 ">
       <div className="flex items-center justify-center gap-7">
         <div className="flex flex-col bg-white p-5 py-7 w-fit rounded-md justify-center gap-4">
           <h1 className="text-gray-800 text-xl font-semibold">

@@ -17,7 +17,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ListFilter } from "lucide-react"
+import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import { SupplierForm } from "@/components/form/SupplierForm"
 
 export function SuppliersTable() {
@@ -136,7 +136,7 @@ export function SuppliersTable() {
                         <TableHead className="">Contato</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>CNPJ/CPF</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>Ações</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -146,7 +146,14 @@ export function SuppliersTable() {
                         <TableCell>4452324567</TableCell>
                         <TableCell>renansouza@hotmail.com</TableCell>
                         <TableCell>123123123123</TableCell>
-                        <TableCell className="text-green-500">Ativo</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Renan de Souza</TableCell>
@@ -154,7 +161,14 @@ export function SuppliersTable() {
                         <TableCell>4452324567</TableCell>
                         <TableCell>renansouza@hotmail.com</TableCell>
                         <TableCell>123123123123</TableCell>
-                        <TableCell className="text-green-500">Ativo</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Renan de Souza</TableCell>
@@ -162,7 +176,14 @@ export function SuppliersTable() {
                         <TableCell>4452324567</TableCell>
                         <TableCell>renansouza@hotmail.com</TableCell>
                         <TableCell>123123123123</TableCell>
-                        <TableCell className="text-green-500">Ativo</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Renan de Souza</TableCell>
@@ -170,7 +191,14 @@ export function SuppliersTable() {
                         <TableCell>4452324567</TableCell>
                         <TableCell>renansouza@hotmail.com</TableCell>
                         <TableCell>123123123123</TableCell>
-                        <TableCell className="text-green-500">Ativo</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                     <TableRow>
                         <TableCell className="font-medium">Renan de Souza</TableCell>
@@ -178,7 +206,14 @@ export function SuppliersTable() {
                         <TableCell>4452324567</TableCell>
                         <TableCell>renansouza@hotmail.com</TableCell>
                         <TableCell>123123123123</TableCell>
-                        <TableCell className="text-green-500">Ativo</TableCell>
+                        <TableCell className="flex items-center gap-2">
+                            <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                <Trash2 className="text-red-600" />
+                            </div>
+                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                <Pencil className="text-blue-600" />
+                            </div>
+                        </TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
