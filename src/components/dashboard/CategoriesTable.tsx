@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Table,
     TableBody,
@@ -17,8 +19,46 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { CategoryForm } from "@/components/form/CategoryForm"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { toast } from "@/components/ui/use-toast"
+import moment from "moment"
+
+export interface CategoryProps {
+    _id: string,
+    name: string,
+    description: string,
+    createdBy: string,
+    createdAt: string,
+    updatedAt: string,
+    __v: number
+}
 
 export function CategoriesTable() {
+    const [loading, setLoading] = useState(false)
+    const [categories, setCategories] = useState([])
+
+    const getCategories = async () => {
+        try {
+            setLoading(true)
+            const response = await axios.get("/api/categories")
+            setCategories(response.data.data)
+        } catch (error: any) {
+            toast({
+                title: 'Erro na criação de categoria',
+                description: error.message,
+                variant: 'destructive'
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getCategories()
+    }, [])
+
+    console.log(categories)
     return (
         <div className="bg-white rounded-md">
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
@@ -65,19 +105,23 @@ export function CategoriesTable() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium">Futebol</TableCell>
-                        <TableCell className="font-medium">ijasidjaisjdiasjdiajsidasidj</TableCell>
-                        <TableCell className="">12/04/2023</TableCell>
-                        <TableCell className="flex items-center gap-2">
-                            <div className="hover:bg-red-300 hover:rounded-full p-2">
-                                <Trash2 className="text-red-600" />
-                            </div>
-                            <div className="hover:bg-blue-300 hover:rounded-full p-2">
-                                <Pencil className="text-blue-600" />
-                            </div>
-                        </TableCell>
-                    </TableRow>
+                    {
+                        categories.map((category: CategoryProps) => (
+                            <TableRow key={category._id}>
+                                <TableCell>{category.name}</TableCell>
+                                <TableCell>{category.description}</TableCell>
+                                <TableCell>{moment(category.createdAt).format("DD MMM YYYY")}</TableCell>
+                                <TableCell className="flex items-center gap-2">
+                                    <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                        <Trash2 className="text-red-600" />
+                                    </div>
+                                    <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                        <Pencil className="text-blue-600" />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))
+                    }
                 </TableBody>
             </Table>
 
