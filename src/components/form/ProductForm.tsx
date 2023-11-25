@@ -18,9 +18,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { Upload, UploadFile } from "antd"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+
+interface ProductFormProps {
+    selectedFiles: any[]
+    setSelectedFiles: any
+}
 
 const FormSchema = z.object({
     name: z.string(),
@@ -28,10 +34,11 @@ const FormSchema = z.object({
     category: z.string({ required_error: "Por favor selecione uma categoria." }),
     price: z.number().positive(),
     quantity: z.number().positive(),
-    mintreshold: z.number().positive()
+    mintreshold: z.number().positive(),
+    image: z.any().refine(file => file, "Por favor, envie uma imagem."),
 })
 
-export function ProductForm() {
+export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps) {
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
@@ -141,10 +148,35 @@ export function ProductForm() {
                             </FormControl>
                             <FormMessage />
                         </FormItem>
-                    )}
+                    )} 
                 />
 
-                <div className="flex items-center justify-end gap-3">
+                <div className="col-span-4">
+                    <FormField
+                        control={form.control}
+                        name="image"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Imagem</FormLabel>
+                                <FormControl>
+                                    <Upload
+                                        listType="picture-card"
+                                        multiple
+                                        beforeUpload={(file) => {
+                                            setSelectedFiles((prev: any) => [...prev, file])
+                                            return false
+                                        }}
+                                    >
+                                        + Upload
+                                    </Upload>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+
+                <div className="flex items-center justify-end gap-3 col-span-4">
                     <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
                         Cancelar
                     </Button>
