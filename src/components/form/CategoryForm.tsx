@@ -15,16 +15,24 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { DialogClose } from "@/components/ui/dialog"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import axios from "axios"
+import { CategoryFormProps } from "../dashboard/CategoriesTable"
 
 const FormSchema = z.object({
     name: z.string(),
     description: z.string(),
 })
 
-export function CategoryForm() {
+interface CategoryProps {
+    selectedCategory: CategoryFormProps | null
+    setOpen: Dispatch<SetStateAction<boolean>>
+    setSelectedCategory: Dispatch<SetStateAction<CategoryFormProps | null>>
+    reloadData: () => void
+}
+
+export function CategoryForm({ selectedCategory, setOpen, setSelectedCategory, reloadData }: CategoryProps) {
     const [loading, setLoading] = useState(false)
 
     const form = useForm<z.infer<typeof FormSchema>>({
@@ -34,11 +42,21 @@ export function CategoryForm() {
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
             setLoading(true)
-            await axios.post("/api/categories", data)
-            toast({
-                title: 'Sucesso',
-                description: "Categoria criada com sucesso!",
-            })
+            if (selectedCategory) {
+                await axios.put(`/api/categories/${selectedCategory._id}`, data)
+                toast({
+                    title: 'Sucesso',
+                    description: "Categoria atualizada com sucesso!",
+                })
+            } else {
+                await axios.post("/api/categories", data)
+                toast({
+                    title: 'Sucesso',
+                    description: "Categoria criada com sucesso!",
+                })
+            }
+            setSelectedCategory(null)
+            reloadData()
         } catch (error: any) {
             toast({
                 title: 'Erro na criação de categoria',
@@ -55,6 +73,7 @@ export function CategoryForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
                 <FormField
                     control={form.control}
+                    defaultValue={selectedCategory?.name}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
@@ -69,6 +88,7 @@ export function CategoryForm() {
 
                 <FormField
                     control={form.control}
+                    defaultValue={selectedCategory?.description}
                     name="description"
                     render={({ field }) => (
                         <FormItem>
@@ -85,18 +105,17 @@ export function CategoryForm() {
                 />
 
                 <div className="flex items-center justify-end gap-3">
-                    <DialogClose>
-                        <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
-                            Cancelar
-                        </Button>
-                    </DialogClose>
+                    <Button onClick={() => setOpen(false)} type="reset" className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
+                        Cancelar
+                    </Button>
 
                     <Button
                         type="submit"
                         className="bg-blue-600 hover:bg-blue-800"
                         disabled={loading}
+                        onClick={() => setOpen(false)}
                     >
-                        Adicionar
+                        {selectedCategory ? "Editar" : "Adicionar"}
                     </Button>
                 </div>
             </form>

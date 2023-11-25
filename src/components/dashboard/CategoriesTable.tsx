@@ -34,9 +34,18 @@ export interface CategoryProps {
     __v: number
 }
 
+export interface CategoryFormProps {
+    _id: string
+    name: string
+    description: string
+}
+
 export function CategoriesTable() {
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState<CategoryFormProps | null>(null)
+
+    const [open, setOpen] = useState(false)
 
     const getCategories = async () => {
         try {
@@ -67,9 +76,15 @@ export function CategoriesTable() {
                 </h1>
 
                 <div className="flex items-center justify-center gap-4">
-                    <Dialog>
+                    <Dialog
+                        open={open}
+                        onOpenChange={(isOpen) => {
+                            if (isOpen === true) return
+                            setOpen(false)
+                        }}
+                    >
                         <DialogTrigger asChild>
-                            <Button className="bg-blue-600 hover:bg-blue-800">
+                            <Button className="bg-blue-600 hover:bg-blue-800" onClick={function(event) { setOpen(true); setSelectedCategory(null);}}>
                                 Adicionar categoria
                             </Button>
                         </DialogTrigger>
@@ -78,7 +93,12 @@ export function CategoriesTable() {
                                 <DialogTitle className="text-2xl font-semibold">Nova categoria</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4">
-                                <CategoryForm />
+                                <CategoryForm 
+                                    selectedCategory={selectedCategory}
+                                    setSelectedCategory={setSelectedCategory}
+                                    reloadData={() => getCategories()}
+                                    setOpen={setOpen}
+                                />
                             </div>
                         </DialogContent>
                     </Dialog>
@@ -112,19 +132,27 @@ export function CategoriesTable() {
                                 <TableCell>{category.description}</TableCell>
                                 <TableCell>{moment(category.createdAt).format("DD MMM YYYY")}</TableCell>
                                 <TableCell className="flex items-center gap-2">
-                                    <div className="hover:bg-red-300 hover:rounded-full p-2">
+                                    <Button 
+                                        className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
+
+                                    >
                                         <Trash2 className="text-red-600" />
-                                    </div>
-                                    <div className="hover:bg-blue-300 hover:rounded-full p-2">
+                                    </Button>
+                                    <Button 
+                                        className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
+                                        onClick={() => {
+                                            setSelectedCategory(category)
+                                            setOpen(true)
+                                        }}
+                                    >
                                         <Pencil className="text-blue-600" />
-                                    </div>
+                                    </Button>
                                 </TableCell>
                             </TableRow>
                         ))
                     }
                 </TableBody>
             </Table>
-
         </div>
     )
 }
