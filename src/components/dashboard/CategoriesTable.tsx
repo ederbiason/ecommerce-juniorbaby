@@ -42,6 +42,7 @@ export interface CategoryFormProps {
 
 export function CategoriesTable() {
     const [loading, setLoading] = useState(false)
+    const [loadingForDelete, setLoadingForDelete] = useState(false)
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState<CategoryFormProps | null>(null)
 
@@ -54,12 +55,33 @@ export function CategoriesTable() {
             setCategories(response.data.data)
         } catch (error: any) {
             toast({
-                title: 'Erro na criação de categoria',
+                title: 'Erro na busca de categorias',
                 description: error.message,
                 variant: 'destructive'
             })
         } finally {
             setLoading(false)
+        }
+    }
+
+    const onDelete = async (id: string) => {
+        try {
+            setLoadingForDelete(true)
+            await axios.delete(`/api/categories/${id}`) 
+            toast({
+                title: 'Sucesso',
+                description: "Categoria deletada com sucesso!",
+            })
+            setSelectedCategory(null)
+            getCategories()
+        } catch (error: any) {
+            toast({
+                title: 'Erro ao deletar categoria',
+                description: error.response.data.messaage || error.message,
+                variant: 'destructive'
+            })
+        } finally {
+            setLoadingForDelete(false)
         }
     }
 
@@ -134,7 +156,8 @@ export function CategoriesTable() {
                                 <TableCell className="flex items-center gap-2">
                                     <Button 
                                         className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-
+                                        onClick={() => onDelete(category._id)}
+                                        disabled={loadingForDelete && selectedCategory?._id === category._id}
                                     >
                                         <Trash2 className="text-red-600" />
                                     </Button>

@@ -18,3 +18,17 @@ export async function PUT(request: NextRequest, {params}: {params : {categoryid:
         return NextResponse.json({message: error.message}, {status: 500})
     }
 }
+
+export async function DELETE(request: NextRequest, {params}: {params : {categoryid: string}}) {
+    try {
+        await validateJWT(request)
+
+        await Category.findByIdAndDelete(params.categoryid)
+
+        return NextResponse.json({
+            message: "Categoria deletada com sucesso!"
+        })
+    } catch (error: any) {
+        return NextResponse.json({message: error.message}, {status: 500})
+    }
+}
