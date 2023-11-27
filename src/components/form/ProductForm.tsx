@@ -18,13 +18,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { Upload, UploadFile } from "antd"
+import { Upload } from "antd"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { toast } from "@/components/ui/use-toast"
 
 interface ProductFormProps {
-    selectedFiles: any[]
     setSelectedFiles: any
 }
 
@@ -32,19 +35,59 @@ const FormSchema = z.object({
     name: z.string(),
     description: z.string(),
     category: z.string({ required_error: "Por favor selecione uma categoria." }),
-    price: z.number().positive(),
-    quantity: z.number().positive(),
-    mintreshold: z.number().positive(),
-    image: z.any().refine(file => file, "Por favor, envie uma imagem."),
+    price: z.coerce.number(),
+    countInStock: z.coerce.number(),
+    minThreshold: z.coerce.number(),
+    images: z.any(),
 })
 
-export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps) {
+export function ProductForm({ setSelectedFiles }: ProductFormProps) {
+    const router = useRouter()
+    const [loading, setLoading] = useState(false)
+    const [categories, setCategories] = useState([])
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
+    const getCategories = async() => {
+        try {
+            const response = await axios.get("/api/categories")
+            setCategories(response.data.data)
+        } catch (error: any) {
+            toast({
+                title: 'Erro na busca de categorias',
+                description: error.message,
+                variant: 'destructive'
+            })
+        }
+    }
+
+    useEffect(() => {
+        getCategories()
+    }, [])
+    
+
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        data.images = []
         console.log(data)
+        try {
+            setLoading(true)
+            await axios.post("/api/products", data)
+            toast({
+                title: 'Sucesso',
+                description: "Produto criado com sucesso!",
+            })
+            router.push("/products")
+        } catch (error: any) {
+            toast({
+                title: 'Error',
+                description: error.response.data.message || error.message,
+                variant: 'destructive'
+            })
+        } finally {
+            setLoading(false)
+        }
     }
 
     return (
@@ -113,9 +156,16 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
                                     </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                    <SelectItem value="suplemento">Suplemento</SelectItem>
-                                    <SelectItem value="futebol">Futebol</SelectItem>
-                                    <SelectItem value="natacao">Natação</SelectItem>
+                                    {
+                                        categories.map((category: any) => (
+                                            <SelectItem
+                                                key={category._id}
+                                                value={category._id}
+                                            >
+                                                {category.name}
+                                            </SelectItem>
+                                        ))
+                                    }
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -125,7 +175,7 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
 
                 <FormField
                     control={form.control}
-                    name="quantity"
+                    name="countInStock"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Quantidade</FormLabel>
@@ -139,7 +189,7 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
 
                 <FormField
                     control={form.control}
-                    name="mintreshold"
+                    name="minThreshold"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Qtd. mínima</FormLabel>
@@ -148,13 +198,13 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
                             </FormControl>
                             <FormMessage />
                         </FormItem>
-                    )} 
+                    )}
                 />
 
                 <div className="col-span-4">
                     <FormField
                         control={form.control}
-                        name="image"
+                        name="images"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Imagem</FormLabel>
@@ -166,6 +216,7 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
                                             setSelectedFiles((prev: any) => [...prev, file])
                                             return false
                                         }}
+                                        {...field}
                                     >
                                         + Upload
                                     </Upload>
@@ -177,13 +228,14 @@ export function ProductForm({selectedFiles, setSelectedFiles}: ProductFormProps)
                 </div>
 
                 <div className="flex items-center justify-end gap-3 col-span-4">
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400">
+                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400" onClick={() => router.back()}>
                         Cancelar
                     </Button>
 
                     <Button
                         type="submit"
                         className="bg-blue-600 hover:bg-blue-800"
+                        disabled={loading}
                     >
                         Adicionar
                     </Button>

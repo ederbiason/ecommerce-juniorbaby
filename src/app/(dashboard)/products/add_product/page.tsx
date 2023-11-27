@@ -11,7 +11,6 @@ export default function AddProduct() {
     console.log(selectedFiles)
   }, [selectedFiles])
   
-
   return (
     <div className="w-full p-5">
         <h1 className="text-2xl font-bold text-gray-800 mb-2">
@@ -21,7 +20,6 @@ export default function AddProduct() {
         <Separator className="bg-black" />
 
         <ProductForm 
-          selectedFiles={selectedFiles}
           setSelectedFiles={setSelectedFiles}
         />
     </div>

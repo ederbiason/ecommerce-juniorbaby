@@ -89,7 +89,6 @@ export function CategoriesTable() {
         getCategories()
     }, [])
 
-    console.log(categories)
     return (
         <div className="bg-white rounded-md">
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
