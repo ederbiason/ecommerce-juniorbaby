@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
+import { uploadImageAndReturnUrls } from "@/helpers/imageHandling"
 
 interface ProductFormProps {
     setSelectedFiles: any
@@ -73,6 +74,7 @@ export function ProductForm({ setSelectedFiles }: ProductFormProps) {
         console.log(data)
         try {
             setLoading(true)
+            const imagesUrls = await uploadImageAndReturnUrls(setSelectedFiles)
             await axios.post("/api/products", data)
             toast({
                 title: 'Sucesso',
