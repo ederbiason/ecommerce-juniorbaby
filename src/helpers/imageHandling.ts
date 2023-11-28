@@ -13,7 +13,7 @@ export const uploadImageAndReturnUrls = async (files: any) => {
         )   
         
         const imageUrls = await Promise.all(
-            imageRefs.map((imageRef: any) => getDownloadURL(imageRef))
+            imageRefs.map((imageRef: any) => getDownloadURL(imageRef.ref))
         )
 
         return imageUrls

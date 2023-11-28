@@ -2,14 +2,8 @@
 
 import { ProductForm } from "@/components/form/ProductForm"
 import { Separator } from "@/components/ui/separator"
-import { useEffect, useState } from "react"
 
 export default function AddProduct() {
-  const [selectedFiles, setSelectedFiles] = useState([])
-
-  useEffect(() => {
-    console.log(selectedFiles)
-  }, [selectedFiles])
   
   return (
     <div className="w-full p-5">
@@ -19,9 +13,7 @@ export default function AddProduct() {
 
         <Separator className="bg-black" />
 
-        <ProductForm 
-          setSelectedFiles={setSelectedFiles}
-        />
+        <ProductForm />
     </div>
   )
 }

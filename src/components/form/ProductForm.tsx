@@ -42,10 +42,11 @@ const FormSchema = z.object({
     images: z.any(),
 })
 
-export function ProductForm({ setSelectedFiles }: ProductFormProps) {
+export function ProductForm() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
+    const [selectedFiles = [], setSelectedFiles] = useState<any>([])
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
@@ -70,11 +71,12 @@ export function ProductForm({ setSelectedFiles }: ProductFormProps) {
     
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
-        data.images = []
         console.log(data)
+        console.log(selectedFiles)
         try {
             setLoading(true)
-            const imagesUrls = await uploadImageAndReturnUrls(setSelectedFiles)
+            const imagesUrls = await uploadImageAndReturnUrls(selectedFiles)
+            data.images = imagesUrls
             await axios.post("/api/products", data)
             toast({
                 title: 'Sucesso',
@@ -84,7 +86,7 @@ export function ProductForm({ setSelectedFiles }: ProductFormProps) {
         } catch (error: any) {
             toast({
                 title: 'Error',
-                description: error.response.data.message || error.message,
+                description: error.message || error.response.data.message,
                 variant: 'destructive'
             })
         } finally {
