@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -29,10 +30,13 @@ import { toast } from "@/components/ui/use-toast"
 import { uploadImageAndReturnUrls } from "@/helpers/imageHandling"
 
 interface ProductFormProps {
-    setSelectedFiles: any
+    initialValues?: any 
+    existingImages?: any
+    setExistingImages?: any
+    productEditId?: any
 }
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
     name: z.string(),
     description: z.string(),
     category: z.string({ required_error: "Por favor selecione uma categoria." }),
@@ -42,8 +46,9 @@ const FormSchema = z.object({
     images: z.any(),
 })
 
-export function ProductForm() {
+export function ProductForm({initialValues, existingImages, setExistingImages, productEditId}: ProductFormProps) {
     const router = useRouter()
+    
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
     const [selectedFiles = [], setSelectedFiles] = useState<any>([])
@@ -68,11 +73,8 @@ export function ProductForm() {
     useEffect(() => {
         getCategories()
     }, [])
-    
 
-    async function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
-        console.log(selectedFiles)
+    async function onSubmit(data: any) {
         try {
             setLoading(true)
             const imagesUrls = await uploadImageAndReturnUrls(selectedFiles)
@@ -94,9 +96,48 @@ export function ProductForm() {
         }
     }
 
+    async function onEdit(data: z.infer<typeof FormSchema>) {
+        console.log(data)
+        console.log("Oi")
+        try {
+            
+            setLoading(true)
+            const newImages = await uploadImageAndReturnUrls(selectedFiles)
+            const newAndExistingImages = [...existingImages, ...newImages]
+            data.images = newAndExistingImages
+            
+            await axios.put(`/api/products/${productEditId}`, data)
+            toast({
+                title: 'Sucesso',
+                description: "Produto atualizado com sucesso!",
+            })
+
+            router.refresh()
+            router.back()
+        } catch (error: any) {
+            toast({
+                title: 'Error',
+                description: error.message || error.response.data.message,
+                variant: 'destructive'
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const textButton = initialValues ? "Editar" : "Adicionar"
+
+    function onButtonClick(data: z.infer<typeof FormSchema>) {
+        if(textButton === "Adicionar") {
+            onSubmit(data)
+        } else {
+            onEdit(data)
+        }
+    }
+
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 mt-3">
+            <form onSubmit={form.handleSubmit(onButtonClick)} className="grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 mt-3">
                 <div className="col-span-4">
                     <FormField
                         control={form.control}
@@ -105,7 +146,7 @@ export function ProductForm() {
                             <FormItem>
                                 <FormLabel>Nome</FormLabel>
                                 <FormControl>
-                                    <Input type="text" placeholder="Insira o nome do produto" {...field} />
+                                    <Input defaultValue={initialValues?.name} type="text" placeholder="Insira o nome do produto" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -125,6 +166,7 @@ export function ProductForm() {
                                         placeholder="Insira a descrição do produto"
                                         className="resize-none"
                                         {...field}
+                                        defaultValue={initialValues?.description}
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -140,20 +182,20 @@ export function ProductForm() {
                         <FormItem>
                             <FormLabel>Preço</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Insira o preço do produto" {...field} />
+                                <Input type="number" defaultValue={initialValues?.price} placeholder="Insira o preço do produto" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-
+                {/* descobrir como colocar um valor como default */}
                 <FormField
                     control={form.control}
                     name="category"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Categoria</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange} defaultValue={field.value} value={initialValues?.category}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Selecione uma categoria" />
@@ -164,7 +206,8 @@ export function ProductForm() {
                                         categories.map((category: any) => (
                                             <SelectItem
                                                 key={category._id}
-                                                value={category._id}
+                                                value={category.name}
+                                                defaultChecked={category.name}
                                             >
                                                 {category.name}
                                             </SelectItem>
@@ -184,7 +227,7 @@ export function ProductForm() {
                         <FormItem>
                             <FormLabel>Quantidade</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Insira a quantidade de estoque" {...field} />
+                                <Input defaultValue={initialValues?.countInStock} type="number" placeholder="Insira a quantidade de estoque" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -198,12 +241,33 @@ export function ProductForm() {
                         <FormItem>
                             <FormLabel>Qtd. mínima</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="Insira a qtd. mínima de estoque" {...field} />
+                                <Input defaultValue={initialValues?.minThreshold} type="number" placeholder="Insira a qtd. mínima de estoque" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
+
+                <div className="col-span-4 flex gap-5">
+                    {initialValues?.images && existingImages.map((image: any) => (
+                        <div
+                            key={image}
+                            className="border border-gray-600 rounded-md p-3 border-solid flex flex-col items-center gap-2"
+                        >
+                            <img src={image} alt="product" className="w-24 h-24 rounded-md" />
+                            <h1
+                                className="cursor-pointer underline"
+                                onClick={() => {
+                                    setExistingImages((prev: any) => 
+                                        prev.filter((i: any) => i !== image)
+                                    )
+                                }}
+                            >
+                                Remove
+                            </h1>
+                        </div>
+                    ))}
+                </div>
 
                 <div className="col-span-4">
                     <FormField
@@ -241,7 +305,7 @@ export function ProductForm() {
                         className="bg-blue-600 hover:bg-blue-800"
                         disabled={loading}
                     >
-                        Adicionar
+                        {textButton}
                     </Button>
                 </div>
             </form>
