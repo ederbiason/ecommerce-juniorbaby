@@ -1,14 +1,15 @@
 "use client"
 
 import { Separator } from "@/components/ui/separator"
-import { CartState } from "@/redux/cartSlice"
+import { CartState, EditProductInCart, RemoveProductFromCart } from "@/redux/cartSlice"
 import { Minus, Plus } from "lucide-react"
 import Image from "next/image"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 export default function Cart() {
     const { cartItems }: CartState = useSelector((state: any) => state.cart)
-    
+    const dispatch = useDispatch()
+
     return (
     <div className="p-5">
         <h1 className="text-2xl font-semibold">
@@ -53,7 +54,11 @@ export default function Cart() {
                                         {item.name}
                                     </span>
 
-                                    <span className="cursor-pointer underline text-red-500">
+                                    <span className="cursor-pointer underline text-red-500"
+                                        onClick={() => {
+                                            dispatch(RemoveProductFromCart(item))
+                                        }}
+                                    >
                                         Remover
                                     </span>
                                 </div>
@@ -64,9 +69,29 @@ export default function Cart() {
                             </span>
 
                             <div className="col-span-1 border border-solid p-2 border-gray-400 flex gap-2 justify-between">
-                                <Minus />
+                                <Minus 
+                                    onClick={() => {
+                                        if(item.quantity !== 1) {
+                                            dispatch(EditProductInCart({
+                                                ...item,
+                                                quantity: item.quantity - 1
+                                            }))
+                                        } else {
+                                            dispatch(RemoveProductFromCart(item))
+                                        }
+                                    }}
+                                />
+
                                 {item.quantity}
-                                <Plus />
+
+                                <Plus 
+                                    onClick={() => {
+                                        dispatch(EditProductInCart({
+                                            ...item,
+                                            quantity: item.quantity + 1
+                                        }))
+                                    }}
+                                />
                             </div>
 
                             <span className="col-span-1">
