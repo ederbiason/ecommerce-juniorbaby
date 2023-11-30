@@ -14,6 +14,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { SetCurrentUser } from "@/redux/userSlice";
 import Link from "next/link";
+import { CartState } from "@/redux/cartSlice";
+import { Badge } from "antd";
 
 export interface CurrentUserProps {
     _id: Id
@@ -46,6 +48,7 @@ export function Navbar() {
     const isPrivatePage = pathname !== '/login' && pathname !== '/sign-up'
     const dispatch = useDispatch()
     const { currentUser } = useSelector((state: any) => state.user)
+    const { cartItems }: CartState = useSelector((state: any) => state.cart)
 
     const getCurrentUser = async () => {
         try {
@@ -99,9 +102,15 @@ export function Navbar() {
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    <ShoppingCart 
+                    <Badge 
+                        count={cartItems.length}
                         className="cursor-pointer"
-                    />
+                    >
+                        <ShoppingCart
+                            className="cursor-pointer"
+                            onClick={() => router.push("/cart")}
+                        />
+                    </Badge>
 
                     <Popover>
                         <PopoverTrigger>

@@ -33,7 +33,7 @@ export default async function Home({ children }: { children: React.ReactNode }) 
       {/* filters purpose */}
       <div className="grid grid-cols-5 gap-8">
         {products.map((product: any) => (
-          <div key={product._id} className="gap-2 p-4 border border-solid border-gray-400 rounded-md">
+          <div key={product._id} className="gap-2 flex flex-col p-4 border border-solid border-gray-400 rounded-md">
             <Link
               href={`/products/${product._id}`}
               className="h-full flex flex-col justify-between items-center"
@@ -49,17 +49,20 @@ export default async function Home({ children }: { children: React.ReactNode }) 
                 <h1 className="font-semibold">
                   {product.name}
                 </h1>
-                <Rate defaultValue={product.rating || 3} />
-                <div className="flex gap-5 items-center">
-                  <h1 className="font-semibold">
-                    R$ {product.price}
-                  </h1>
-                  <AddToCartBtn
-                    product={product}
-                  />
-                </div>
               </div>
             </Link>
+
+            <div className="flex flex-col items-center justify-center gap-3">
+              <Rate defaultValue={product.rating || 3} />
+              <div className="flex gap-5 items-center">
+                <h1 className="font-semibold">
+                  R$ {product.price}
+                </h1>
+                <AddToCartBtn
+                  product={product}
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
