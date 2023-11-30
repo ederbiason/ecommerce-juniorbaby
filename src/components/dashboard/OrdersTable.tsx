@@ -55,7 +55,7 @@ export function OrdersTable() {
             </div>
 
             <Table className="">
-                <TableCaption>Lista dos fornecedores</TableCaption>
+                <TableCaption>Lista dos pedidos</TableCaption>
                 <TableHeader>
                     <TableRow>
                         <TableHead>Produtos</TableHead>
