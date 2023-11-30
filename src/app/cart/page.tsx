@@ -112,7 +112,7 @@ export default function Cart() {
                     <Separator className="bg-gray-500" />
                 </div>
 
-                <div className="col-span-1 border border-solid border-gray-400 p-5">
+                <div className="col-span-1 border border-solid border-gray-400 p-5 rounded-md">
                     <h1 className="text-3xl font-semibold text-gray-700">Resumo</h1>
 
                     <Separator
