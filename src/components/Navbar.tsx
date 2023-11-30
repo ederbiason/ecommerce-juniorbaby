@@ -70,6 +70,11 @@ export function Navbar() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname, isPrivatePage])
 
+    useEffect(() => {
+        // persistir dados no carrinho
+        localStorage.setItem("cartItems", JSON.stringify(cartItems))
+    }, [cartItems])
+
     const onLogout = async () => {
         try {
             await axios.get("/api/auth/logout")
