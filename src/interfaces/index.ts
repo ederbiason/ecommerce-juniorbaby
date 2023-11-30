@@ -7,6 +7,6 @@ export interface ProductInterface {
     counteInStock: number,
     createdAt?: string,
     updatedAt?: string,
-    quantity?: number,
+    quantity: number,
     _id?: string
 }

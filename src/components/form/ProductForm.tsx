@@ -256,14 +256,14 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
                         >
                             <img src={image} alt="product" className="w-24 h-24 rounded-md" />
                             <h1
-                                className="cursor-pointer underline"
+                                className="cursor-pointer underline text-red-500"
                                 onClick={() => {
                                     setExistingImages((prev: any) => 
                                         prev.filter((i: any) => i !== image)
                                     )
                                 }}
                             >
-                                Remove
+                                Remover
                             </h1>
                         </div>
                     ))}
