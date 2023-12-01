@@ -24,9 +24,9 @@ export function Menu() {
             Relatórios
         </Link>
 
-        <Link href="/suppliers" className={clsx("flex items-center gap-4", pathname == "/suppliers" && "text-blue-600")}>
+        <Link href="/users" className={clsx("flex items-center gap-4", pathname == "/suppliers" && "text-blue-600")}>
             <UserCircle2 />
-            Fornecedores
+            Usuários
         </Link>
 
         <Link href="/orders" className={clsx("flex items-center gap-4", pathname == "/orders" && "text-blue-600")}>
