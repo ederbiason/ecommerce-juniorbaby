@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect } from "react"
 import { fetchUser } from "@/redux/userSlice"
 import { UsersOrdersTable } from "./components/UsersOrdersTable"
+import PersonalInfo from "./components/PersonalInfo"
 
 export default function Profile() {
   const currentUser = useSelector((state: any) => state.user)
@@ -24,7 +25,7 @@ export default function Profile() {
           </TabsContent>
 
           <TabsContent value="personal">
-
+            <PersonalInfo />
           </TabsContent>
         </Tabs>
       )}
