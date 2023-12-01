@@ -5,23 +5,27 @@ import { useDispatch, useSelector } from "react-redux"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect } from "react"
 import { fetchUser } from "@/redux/userSlice"
+import { UsersOrdersTable } from "./components/UsersOrdersTable"
 
 export default function Profile() {
   const currentUser = useSelector((state: any) => state.user)
-  console.log(currentUser.currentUser.isAdmin)
-  console.log(currentUser)
 
   return (
-    <div className="pt-5">
-      {currentUser.currentUser.isAdmin && redirect("/products")}
+    <div className="p-5">
+      {currentUser.currentUser?.isAdmin && redirect("/products")}
       {!currentUser.isAdmin && (
-        <Tabs defaultValue="account" className="">
+        <Tabs defaultValue="orders" className="">
           <TabsList className="w-full flex justify-start gap-5 px-5">
-            <TabsTrigger value="account">Orders</TabsTrigger>
-            <TabsTrigger value="password">Personal information</TabsTrigger>
+            <TabsTrigger value="orders">Pedidos</TabsTrigger>
+            <TabsTrigger value="personal">Informações pessoais</TabsTrigger>
           </TabsList>
-          <TabsContent value="account">Make changes to your account here.</TabsContent>
-          <TabsContent value="password">Change your password here.</TabsContent>
+          <TabsContent value="orders">
+            <UsersOrdersTable />
+          </TabsContent>
+
+          <TabsContent value="personal">
+
+          </TabsContent>
         </Tabs>
       )}
     </div>
