@@ -4,17 +4,20 @@ import axios from "axios"
 import moment from "moment"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 
 export function UsersOrdersTable() {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(false)
-    console.log(orders)
+
+    const { currentUser } = useSelector((state: any) => state.user)
 
     const getOrders = async () => {
         try {
             setLoading(true)
 
-            const response = await axios.get("/api/orders")
+            const endPoint = `/api/orders?user=${currentUser._id}`;
+            const response = await axios.get(endPoint);
 
             setOrders(response.data)
         } catch (error: any) {
