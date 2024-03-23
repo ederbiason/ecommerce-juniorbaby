@@ -24,11 +24,9 @@ import { Input } from "@/components/ui/input"
 
 const FormSchema = z.object({
     name: z.string(),
-    product: z.string(),
-    category: z.string({ required_error: "Por favor selecione uma categoria." }),
     email: z.string().email(),
-    phonenumber: z.string(),
-    cnpj_cpf: z.string()
+    salary: z.number(),
+    job: z.string()
 })
 
 export function SupplierForm() {
@@ -43,8 +41,6 @@ export function SupplierForm() {
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6 flex flex-col">
-                {/* upload de imagem */}
-
                 <FormField
                     control={form.control}
                     name="name"
@@ -53,20 +49,6 @@ export function SupplierForm() {
                             <FormLabel>Nome</FormLabel>
                             <FormControl>
                                 <Input type="text" placeholder="Insira o nome do fornecedor" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-
-                <FormField
-                    control={form.control}
-                    name="product"
-                    render={({ field }) => (
-                        <FormItem className="flex items-center gap-12">
-                            <FormLabel>Produto</FormLabel>
-                            <FormControl>
-                                <Input type="text" placeholder="Insira o produto do fornecedor" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -89,12 +71,12 @@ export function SupplierForm() {
 
                 <FormField
                     control={form.control}
-                    name="phonenumber"
+                    name="job"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-7">
-                            <FormLabel>Núm. de contato</FormLabel>
+                        <FormItem className="flex items-center gap-16">
+                            <FormLabel>Cargo</FormLabel>
                             <FormControl>
-                                <Input type="text" placeholder="Insira o número do fornecedor" {...field} />
+                                <Input type="text" placeholder="Insira o cargo do funcionário" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -103,12 +85,12 @@ export function SupplierForm() {
 
                 <FormField
                     control={form.control}
-                    name="cnpj_cpf"
+                    name="salary"
                     render={({ field }) => (
-                        <FormItem className="flex items-center gap-10">
-                            <FormLabel>CNPJ/CPF</FormLabel>
+                        <FormItem className="flex items-center gap-14">
+                            <FormLabel>Salário</FormLabel>
                             <FormControl>
-                                <Input type="text" placeholder="Insira o CNPJ/CPF do fornecedor" {...field} />
+                                <Input type="number" placeholder="Insira o salário do funcionário" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

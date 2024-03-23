@@ -100,8 +100,10 @@ export function Navbar() {
             <div className=" flex items-center justify-between">
                 <div className="">
                     <Link href="/">
-                        <h1 className="text-2xl font-bold">
-                            Sports Store
+                        <h1 className="text-2xl font-bold uppercase">
+                            <span className="text-blue-900">Junior</span>
+                            {" "} 
+                            <span className="text-red-800">Baby</span>
                         </h1>
                     </Link>
                 </div>
