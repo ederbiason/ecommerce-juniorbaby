@@ -19,11 +19,6 @@ export function Menu() {
             Categorias
         </Link>
 
-        <Link href="/reports" className={clsx("flex items-center gap-4", pathname == "/reports" && "text-blue-600")}>
-            <KanbanSquare className="rotate-180" />
-            Relatórios
-        </Link>
-
         <Link href="/users" className={clsx("flex items-center gap-4", pathname == "/users" && "text-blue-600")}>
             <UserCircle2 />
             Usuários
@@ -32,11 +27,6 @@ export function Menu() {
         <Link href="/orders" className={clsx("flex items-center gap-4", pathname == "/orders" && "text-blue-600")}>
             <ShoppingBag />
             Pedidos
-        </Link>
-
-        <Link href="/stores" className={clsx("flex items-center gap-4", pathname == "/stores" && "text-blue-600")}>
-            <Store />
-            Lojas
         </Link>
     </div>
   )
