@@ -58,27 +58,18 @@ export function UsersTable() {
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button className="bg-blue-600 hover:bg-blue-800">
-                                Adicionar funcionário
+                                Adicionar usuário
                             </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
-                                <DialogTitle>Novo funcionário</DialogTitle>
+                                <DialogTitle>Novo usuário</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4 pt-4">
                                 <SupplierForm />
                             </div>
                         </DialogContent>
                     </Dialog>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        <ListFilter />
-                        Filtros
-                    </Button>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        Baixar tudo
-                    </Button>
                 </div>
             </div>
 
@@ -90,7 +81,6 @@ export function UsersTable() {
                         <TableHead>Nome</TableHead>
                         <TableHead>Email</TableHead>
                         <TableHead>Admin</TableHead>
-                        <TableHead>Funcionário</TableHead>
                         <TableHead>Ativo</TableHead>
                         <TableHead>Ações</TableHead>
                     </TableRow>
@@ -101,9 +91,6 @@ export function UsersTable() {
                             <TableCell>{user._id}</TableCell>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
-                            <TableCell className={`${user.isAdmin ? "text-green-500" : "text-red-500"}`}>
-                                {user.isAdmin ? "Sim" : "Não"}
-                            </TableCell>
                             <TableCell className={`${user.isAdmin ? "text-green-500" : "text-red-500"}`}>
                                 {user.isAdmin ? "Sim" : "Não"}
                             </TableCell>
