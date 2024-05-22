@@ -67,7 +67,17 @@ export default function PersonalInfo() {
                 <Form.Item
                     name="password"
                     label="Senha"
-                    rules={getAntdFieldRequiredRule("Por favor insira sua senha antiga!")}
+                    rules={[
+                        { required: false },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password')) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Por favor insira sua nova senha!'));
+                            },
+                        }),
+                    ]}
                 >
                     <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" />
                 </Form.Item>
@@ -75,7 +85,17 @@ export default function PersonalInfo() {
                 <Form.Item
                     name="newPassword"
                     label="Nova senha"
-                    rules={getAntdFieldRequiredRule("Por favor insira sua nova senha!")}
+                    rules={[
+                        { required: false },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password')) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('Por favor insira sua nova senha!'));
+                            },
+                        }),
+                    ]}
                 >
                     <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" />
                 </Form.Item>
