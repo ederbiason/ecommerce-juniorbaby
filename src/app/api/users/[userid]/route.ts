@@ -41,3 +41,12 @@ export async function PUT(request: NextRequest, { params }: { params: Params }) 
         return NextResponse.json({ message: error.message }, { status: 500 })
     }
 }
+
+export async function GET(request: NextRequest, {params}: {params : {userid: string}}) {
+    try {
+        const user = await User.findById(params.userid)
+        return NextResponse.json(user)
+    } catch (error: any) {
+        return NextResponse.json({message: error.message}, {status: 500})
+    }
+}

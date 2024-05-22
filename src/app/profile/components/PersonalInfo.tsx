@@ -61,7 +61,7 @@ export default function PersonalInfo() {
                     label="Email"
                     rules={getAntdFieldRequiredRule("Por favor insira seu email!")}
                 >
-                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" disabled />
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" />
                 </Form.Item>
 
                 <Form.Item

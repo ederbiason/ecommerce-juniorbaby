@@ -22,8 +22,11 @@ import { SupplierForm } from "@/components/form/SupplierForm"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
+import { useRouter } from "next/navigation"
 
 export function UsersTable() {
+    const router = useRouter()
+
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -101,7 +104,12 @@ export function UsersTable() {
                                 <Button className="bg-transparent hover:bg-red-300 hover:rounded-full p-2">
                                     <Trash2 className="text-red-600" />
                                 </Button>
-                                <Button className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2">
+                                <Button 
+                                    className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
+                                    onClick={() => {
+                                        router.push(`/users/edit_user/${user._id}`)
+                                    }}
+                                >
                                     <Pencil className="text-blue-600" />
                                 </Button>
                             </TableCell>
