@@ -2,12 +2,10 @@
 
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
-import { getAntdFieldRequiredRule } from "@/helpers/validations"
-import { SetCurrentUser } from "@/redux/userSlice"
 import { Form, Select } from "antd"
 import axios from "axios"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useDispatch } from "react-redux"
 
 interface UserProps {
     _id: string
@@ -21,6 +19,7 @@ export default function EditUser({ params }: { params: any }) {
     const [user, setUser] = useState<UserProps>()
     const [loading, setLoading] = useState(false)
     const [form] = Form.useForm()
+    const router = useRouter()
 
     const getUser = async () => {
         try {
@@ -124,9 +123,14 @@ export default function EditUser({ params }: { params: any }) {
                     />
                 </Form.Item>
 
-                <Button type="submit" disabled={loading}>
-                    Salvar
-                </Button>
+                <div className="w-full flex justify-between items-center">
+                    <Button className="border border-zinc-400 bg-red-500 hover:bg-red-400 text-gray-100" onClick={() => router.back()}>
+                            Cancelar
+                    </Button>
+                    <Button type="submit" disabled={loading}>
+                        Salvar
+                    </Button>
+                </div>
             </Form>
         </div>
     )
