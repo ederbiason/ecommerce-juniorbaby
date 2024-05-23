@@ -47,20 +47,19 @@ export default function EditUser({ params }: { params: any }) {
             form.setFieldsValue({
                 name: user.name,
                 email: user.email,
-                isadmin: user.isAdmin,
-                isactive: user.isActive,
+                isAdmin: user.isAdmin,
+                isActive: user.isActive,
             })
         }
     }, [user, form])
 
 
-    // salvar as alterações no banco
     const onSave = async (values: any) => {
         try {
             setLoading(true)
 
             const endPoint = `/api/users/${user?._id}`
-            const response = await axios.put(endPoint, values)
+            await axios.put(endPoint, values)
 
             toast({
                 title: "Sucesso",
@@ -87,8 +86,8 @@ export default function EditUser({ params }: { params: any }) {
                 initialValues={{
                     name: user?.name,
                     email: user?.email,
-                    isadmin: user?.isAdmin,
-                    isactive: user?.isActive
+                    isAdmin: user?.isAdmin,
+                    isActive: user?.isActive
                 }}
             >
                 <Form.Item
@@ -106,7 +105,7 @@ export default function EditUser({ params }: { params: any }) {
                 </Form.Item>
 
                 <Form.Item
-                    name="isadmin"
+                    name="isAdmin"
                     label="Administrador"
                 >
                     <Select 
@@ -116,7 +115,7 @@ export default function EditUser({ params }: { params: any }) {
                 </Form.Item>
 
                 <Form.Item
-                    name="isactive"
+                    name="isActive"
                     label="Ativo"
                 >
                     <Select 
