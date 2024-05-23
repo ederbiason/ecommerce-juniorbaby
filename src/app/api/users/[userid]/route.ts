@@ -50,3 +50,28 @@ export async function GET(request: NextRequest, {params}: {params : {userid: str
         return NextResponse.json({message: error.message}, {status: 500})
     }
 }
+
+export async function PATCH(request: NextRequest, { params }: { params: Params }) {
+    try {
+        const userid = params.userid
+        const reqBody = await request.json()
+
+        if (typeof reqBody.isActive !== 'boolean') {
+            return NextResponse.json({ message: "O campo 'isActive' é obrigatório e deve ser booleano." }, { status: 400 })
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userid,
+            { isActive: reqBody.isActive },
+            { new: true }
+        ).select("-password")
+
+        if (!updatedUser) {
+            return NextResponse.json({ message: "Usuário não encontrado." }, { status: 404 })
+        }
+
+        return NextResponse.json(updatedUser)
+    } catch (error: any) {
+        return NextResponse.json({ message: error.message }, { status: 500 })
+    }
+}

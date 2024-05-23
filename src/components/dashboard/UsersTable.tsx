@@ -17,15 +17,25 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { ListFilter, Pencil, Trash2 } from "lucide-react"
+import { Pencil, Trash2 } from "lucide-react"
 import { SupplierForm } from "@/components/form/SupplierForm"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 
+interface UserProps {
+    _id: string
+    name: string
+    email: string
+    isAdmin: boolean
+    isActive: boolean
+}
+
 export function UsersTable() {
     const router = useRouter()
+
+    const [selectedUser, setSelectedUser] = useState<UserProps>()
 
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -35,6 +45,34 @@ export function UsersTable() {
             setLoading(true)
             const response = await axios.get("/api/users")
             setUsers(response.data)
+        } catch (error: any) {
+            toast({
+                title: "Erro",
+                description: error.message,
+                variant: "destructive"
+            })
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const onDeactivateUser = async (userid: string) => {
+        try {
+            setLoading(true)
+            const response = await axios.get(`/api/users/${userid}`)
+            setSelectedUser(response.data)
+
+            console.log(selectedUser)
+
+            if (selectedUser?.isActive === true) {
+                await axios.patch(`/api/users/${userid}`, { isActive: false })
+            } else {
+                toast({
+                    title: "Erro",
+                    description: "Usuário já está desativado!",
+                    variant: "destructive"
+                })
+            }
         } catch (error: any) {
             toast({
                 title: "Erro",
@@ -101,7 +139,10 @@ export function UsersTable() {
                                 {user.isActive ? "Sim" : "Não"}
                             </TableCell>
                             <TableCell className="flex items-center gap-2">
-                                <Button className="bg-transparent hover:bg-red-300 hover:rounded-full p-2">
+                                <Button 
+                                    className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
+                                    onClick={() => onDeactivateUser(user._id)}
+                                >
                                     <Trash2 className="text-red-600" />
                                 </Button>
                                 <Button 

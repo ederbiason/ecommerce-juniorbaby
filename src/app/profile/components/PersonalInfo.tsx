@@ -74,7 +74,7 @@ export default function PersonalInfo() {
                                 if (!value || getFieldValue('password')) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('Por favor insira sua nova senha!'));
+                                return Promise.reject(new Error('Por favor insira sua senha atual!'));
                             },
                         }),
                     ]}
