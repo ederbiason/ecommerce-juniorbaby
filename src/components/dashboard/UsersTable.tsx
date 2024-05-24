@@ -23,6 +23,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { Loader } from "../Loader"
 
 interface UserProps {
     _id: string
@@ -58,15 +59,18 @@ export function UsersTable() {
 
     const onDeactivateUser = async (userid: string) => {
         try {
-            setLoading(true)
             const response = await axios.get(`/api/users/${userid}`)
             setSelectedUser(response.data)
 
-            console.log(selectedUser)
-
-            if (selectedUser?.isActive === true) {
+            if (response.data.isActive === true) {
                 await axios.patch(`/api/users/${userid}`, { isActive: false })
-            } else {
+
+                toast({
+                    title: "Sucesso",
+                    description: "Usuário desativado com sucesso!",
+                    variant: "default"
+                })
+            } else if (response.data.isActive === false) {
                 toast({
                     title: "Erro",
                     description: "Usuário já está desativado!",
@@ -79,9 +83,7 @@ export function UsersTable() {
                 description: error.message,
                 variant: "destructive"
             })
-        } finally {
-            setLoading(false)
-        }
+        } 
     }
 
     useEffect(() => {
@@ -90,6 +92,8 @@ export function UsersTable() {
 
     return (
         <div className="bg-white">
+            {loading && <Loader />}
+
             <div className="flex items-center justify-between px-4 pt-5 pb-2">
                 <h1 className="text-gray-800 text-xl font-semibold">
                     Usuários

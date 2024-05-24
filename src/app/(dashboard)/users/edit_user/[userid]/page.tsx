@@ -1,5 +1,6 @@
 "use client"
 
+import { Loader } from "@/components/Loader"
 import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { Form, Select } from "antd"
@@ -79,6 +80,8 @@ export default function EditUser({ params }: { params: any }) {
 
     return (
         <div className="w-full px-96 py-20">
+            {loading && <Loader />}
+
             <Form
                 form={form}
                 className="w-full flex flex-col"
