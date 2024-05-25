@@ -18,7 +18,7 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Pencil, Trash2 } from "lucide-react"
-import { SupplierForm } from "@/components/form/SupplierForm"
+import { CreateUserForm } from "@/components/form/CreateUserForm"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
@@ -37,6 +37,8 @@ export function UsersTable() {
     const router = useRouter()
 
     const [selectedUser, setSelectedUser] = useState<UserProps>()
+
+    const [openDialog, setOpenDialog] = useState(false)
 
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -100,7 +102,13 @@ export function UsersTable() {
                 </h1>
 
                 <div className="flex items-center justify-center gap-4">
-                    <Dialog>
+                    <Dialog 
+                        open={openDialog}
+                        onOpenChange={(isOpen) => {
+                            if (isOpen === false) return
+                            setOpenDialog(true)
+                        }}
+                    >
                         <DialogTrigger asChild>
                             <Button className="bg-blue-600 hover:bg-blue-800">
                                 Adicionar usuário
@@ -111,7 +119,7 @@ export function UsersTable() {
                                 <DialogTitle>Novo usuário</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4 pt-4">
-                                <SupplierForm />
+                                <CreateUserForm handleDialog={setOpenDialog} />
                             </div>
                         </DialogContent>
                     </Dialog>

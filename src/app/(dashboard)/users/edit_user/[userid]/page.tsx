@@ -129,7 +129,7 @@ export default function EditUser({ params }: { params: any }) {
                 </Form.Item>
 
                 <div className="w-full flex justify-between items-center">
-                    <Button className="border border-zinc-400 bg-red-500 hover:bg-red-400 text-gray-100" onClick={() => router.back()}>
+                    <Button type="button" className="border border-zinc-400 bg-red-500 hover:bg-red-400 text-gray-100" onClick={() => router.back()}>
                             Cancelar
                     </Button>
                     <Button type="submit" disabled={loading}>
