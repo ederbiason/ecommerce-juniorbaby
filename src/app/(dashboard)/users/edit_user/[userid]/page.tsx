@@ -65,8 +65,6 @@ export default function EditUser({ params }: { params: any }) {
                 title: "Sucesso",
                 description: "Perfil atualizado com sucesso!",
             })
-
-            router.back()
         } catch (error: any) {
             toast({
                 title: "Erro",
@@ -75,6 +73,7 @@ export default function EditUser({ params }: { params: any }) {
             })
         } finally {
             setLoading(false)
+            router.back()
         }
     }
 

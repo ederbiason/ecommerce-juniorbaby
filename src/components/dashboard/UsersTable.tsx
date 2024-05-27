@@ -10,15 +10,7 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
 import { Pencil, Trash2 } from "lucide-react"
-import { CreateUserForm } from "@/components/form/CreateUserForm"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
@@ -37,8 +29,6 @@ export function UsersTable() {
     const router = useRouter()
 
     const [selectedUser, setSelectedUser] = useState<UserProps>()
-
-    const [openDialog, setOpenDialog] = useState(false)
 
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -85,7 +75,7 @@ export function UsersTable() {
                 description: error.message,
                 variant: "destructive"
             })
-        } 
+        }
     }
 
     useEffect(() => {
@@ -102,27 +92,14 @@ export function UsersTable() {
                 </h1>
 
                 <div className="flex items-center justify-center gap-4">
-                    <Dialog 
-                        open={openDialog}
-                        onOpenChange={(isOpen) => {
-                            if (isOpen === false) return
-                            setOpenDialog(true)
+                    <Button 
+                        className="bg-blue-600 hover:bg-blue-800"
+                        onClick={() => {
+                            router.push(`/users/add_user`)
                         }}
                     >
-                        <DialogTrigger asChild>
-                            <Button className="bg-blue-600 hover:bg-blue-800">
-                                Adicionar usuário
-                            </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                                <DialogTitle>Novo usuário</DialogTitle>
-                            </DialogHeader>
-                            <div className="grid gap-4 pt-4">
-                                <CreateUserForm handleDialog={setOpenDialog} />
-                            </div>
-                        </DialogContent>
-                    </Dialog>
+                        Adicionar usuário
+                    </Button>
                 </div>
             </div>
 
@@ -151,13 +128,13 @@ export function UsersTable() {
                                 {user.isActive ? "Sim" : "Não"}
                             </TableCell>
                             <TableCell className="flex items-center gap-2">
-                                <Button 
+                                <Button
                                     className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
                                     onClick={() => onDeactivateUser(user._id)}
                                 >
                                     <Trash2 className="text-red-600" />
                                 </Button>
-                                <Button 
+                                <Button
                                     className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
                                     onClick={() => {
                                         router.push(`/users/edit_user/${user._id}`)

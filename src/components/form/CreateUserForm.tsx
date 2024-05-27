@@ -63,14 +63,14 @@ export function CreateUserForm({ handleDialog }: CreateUserFormProps) {
                 name="name"
                 label="Nome"
             >
-                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="text" />
+                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="text" placeholder="Insira o nome do cliente" />
             </Form.Item>
 
             <Form.Item
                 name="email"
                 label="Email"
             >
-                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" />
+                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" placeholder="Insira o email do cliente" />
             </Form.Item>
 
             <Form.Item
@@ -89,7 +89,7 @@ export function CreateUserForm({ handleDialog }: CreateUserFormProps) {
                 name="password"
                 label="Senha"
             >
-                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" />
+                <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" placeholder="Insira a senha do cliente" />
             </Form.Item>
 
             <div className="w-full flex justify-between items-center">
