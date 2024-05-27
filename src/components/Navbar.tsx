@@ -1,7 +1,7 @@
 "use client"
 
 import axios from "axios";
-import { LogOut, ShoppingCart, User2 } from "lucide-react";
+import { LogOut, ShoppingCart, User2, UserCog2 } from "lucide-react";
 import { useEffect } from "react";
 import {
     Popover,
@@ -133,8 +133,9 @@ export function Navbar() {
                                     className="flex gap-3 bg-blue-500 hover:bg-blue-400"
                                     onClick={(() => router.push("/profile"))}
                                 >
-                                    <User2 />
-                                    Perfil
+                                    {currentUser?.isAdmin ? <UserCog2 /> : <User2 />}
+                                    
+                                    {currentUser?.isAdmin ? "Dashboard" : "Perfil"}
                                 </Button>
 
                                 <Button 
