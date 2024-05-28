@@ -59,7 +59,7 @@ export function SignUpForm() {
 
     return (
         <div className="flex flex-col items-center justify-center gap-4">
-            <h1 className="text-gray-900 font-semibold text-3xl mt-7">
+            <h1 className="text-gray-900 font-semibold text-3xl">
                 Crie uma conta
             </h1>
 

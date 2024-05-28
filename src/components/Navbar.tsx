@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { LogOut, ShoppingCart, User2, UserCog2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
     Popover,
     PopoverContent,
@@ -43,6 +43,8 @@ export interface UpdatedAt {
 }
 
 export function Navbar() {
+    const [open, setOpen] = useState<boolean>(false)
+
     const router = useRouter()
     const pathname = usePathname()
     const isPrivatePage = pathname !== '/login' && pathname !== '/sign-up'
@@ -119,7 +121,10 @@ export function Navbar() {
                         />
                     </Badge>
 
-                    <Popover>
+                    <Popover
+                        open={open}
+                        onOpenChange={setOpen}
+                    >
                         <PopoverTrigger>
                             <div className="flex h-10 w-10 bg-white rounded-full p-2 items-center justify-center">
                                 <span className="font-bold">
@@ -131,7 +136,10 @@ export function Navbar() {
                             <div className="flex flex-col gap-3">
                                 <Button 
                                     className="flex gap-3 bg-blue-500 hover:bg-blue-400"
-                                    onClick={(() => router.push("/profile"))}
+                                    onClick={(() => {
+                                        router.push("/profile")
+                                        setOpen(false)
+                                    })}
                                 >
                                     {currentUser?.isAdmin ? <UserCog2 /> : <User2 />}
                                     

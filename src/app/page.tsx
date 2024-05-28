@@ -31,7 +31,7 @@ export default async function Home({ children }: { children: React.ReactNode }) 
     <div className="text-xl p-5">
 
       {/* filters purpose */}
-      <div className="grid grid-cols-5 gap-8">
+      <div className="grid md:grid-cols-2 2xl:grid-cols-5 lg:grid-cols-3 gap-8 px-20 py-10">
         {products.map((product: any) => (
           <div key={product._id} className="gap-2 flex flex-col p-4 border border-solid border-gray-400 rounded-md">
             <Link
@@ -46,7 +46,7 @@ export default async function Home({ children }: { children: React.ReactNode }) 
                 className="object-center"
               />
               <div className="flex flex-col items-center gap-3">
-                <h1 className="font-semibold">
+                <h1 className="font-semibold text-center">
                   {product.name}
                 </h1>
               </div>

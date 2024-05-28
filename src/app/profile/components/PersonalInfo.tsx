@@ -66,7 +66,7 @@ export default function PersonalInfo() {
 
                 <Form.Item
                     name="password"
-                    label="Senha"
+                    label="Senha atual"
                     rules={[
                         { required: false },
                         ({ getFieldValue }) => ({
@@ -79,7 +79,7 @@ export default function PersonalInfo() {
                         }),
                     ]}
                 >
-                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" />
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" placeholder="Insira sua senha atual" />
                 </Form.Item>
 
                 <Form.Item
@@ -97,7 +97,7 @@ export default function PersonalInfo() {
                         }),
                     ]}
                 >
-                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" />
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="password" placeholder="Insira sua nova senha" />
                 </Form.Item>
 
                 <Button type="submit" disabled={loading}>
