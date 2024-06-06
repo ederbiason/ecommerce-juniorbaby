@@ -13,7 +13,10 @@ export const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
+    phone: {
+        type: String,  
+        required: false, 
+    },
     deliveryAddresses: {
         type: Array,
         default: [],

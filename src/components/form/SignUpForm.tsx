@@ -18,7 +18,11 @@ const FormSchema = z.object({
     name: z.string().min(1, "O nome é obrigatório!"),
     email: z.string().min(1, "O email é obrigatório!").email("Email inválido."),
     password: z.string().min(1, "A senha é obrigatória!").min(8, "A senha deve ter no minímo 8 caracteres."),
-    remember: z.boolean().default(false).optional(),
+    confirmPassword: z.string().min(1, "A confirmação de senha é obrigatória!").min(8, "A senha deve ter no minímo 8 caracteres."),
+    phone: z.string().min(9, "O telefone deve ter no mínimo 10 caracteres!"),
+}).refine(data => data.password === data.confirmPassword, {
+    message: "As senhas não coincidem.",
+    path: ["confirmPassword"],
 })
 
 export function SignUpForm() {
@@ -30,8 +34,8 @@ export function SignUpForm() {
         defaultValues: {
             name: "",
             email: "",
+            phone: "",
             password: "",
-            remember: false
         },
     })
 
@@ -99,20 +103,50 @@ export function SignUpForm() {
 
                     <FormField
                         control={form.control}
-                        name="password"
+                        name="phone"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Senha*</FormLabel>
+                                <FormLabel>Telefone*</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Insira sua senha" {...field} />
+                                    <Input type="text" placeholder="Insira seu telefone" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
 
-                    <Button 
-                        className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md" 
+                    <div className="grid grid-cols-2 gap-3">
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Senha*</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Insira sua senha" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="confirmPassword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Confirmar senha*</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" placeholder="Confirme sua senha" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <Button
+                        className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md"
                         type="submit"
                         disabled={loading}
                     >

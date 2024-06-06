@@ -57,7 +57,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4 xl:py-20">
       <h1 className="text-gray-900 font-semibold text-3xl">
         Faça login na sua conta
       </h1>
