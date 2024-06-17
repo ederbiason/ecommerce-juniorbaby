@@ -13,6 +13,7 @@ import { Chrome } from "lucide-react"
 import { useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
+import { PhoneInput } from "../ui/phone-input"
 
 const FormSchema = z.object({
     name: z.string().min(1, "O nome é obrigatório!"),
@@ -108,7 +109,7 @@ export function SignUpForm() {
                             <FormItem>
                                 <FormLabel>Telefone*</FormLabel>
                                 <FormControl>
-                                    <Input type="text" placeholder="Insira seu telefone" {...field} />
+                                    <PhoneInput placeholder="Insira seu telefone" defaultCountry="BR" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
