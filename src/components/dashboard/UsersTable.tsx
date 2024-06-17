@@ -110,6 +110,7 @@ export function UsersTable() {
                         <TableHead>ID</TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Email</TableHead>
+                        <TableHead>Telefone</TableHead>
                         <TableHead>Admin</TableHead>
                         <TableHead>Ativo</TableHead>
                         <TableHead>Ações</TableHead>
@@ -121,6 +122,7 @@ export function UsersTable() {
                             <TableCell>{user._id}</TableCell>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.phone}</TableCell>
                             <TableCell className={`${user.isAdmin ? "text-green-500" : "text-red-500"}`}>
                                 {user.isAdmin ? "Sim" : "Não"}
                             </TableCell>

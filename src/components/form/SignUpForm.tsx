@@ -14,13 +14,14 @@ import { useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { PhoneInput } from "../ui/phone-input"
+import { isValidPhoneNumber } from "react-phone-number-input"
 
 const FormSchema = z.object({
     name: z.string().min(1, "O nome é obrigatório!"),
     email: z.string().min(1, "O email é obrigatório!").email("Email inválido."),
     password: z.string().min(1, "A senha é obrigatória!").min(8, "A senha deve ter no minímo 8 caracteres."),
     confirmPassword: z.string().min(1, "A confirmação de senha é obrigatória!").min(8, "A senha deve ter no minímo 8 caracteres."),
-    phone: z.string().min(9, "O telefone deve ter no mínimo 10 caracteres!"),
+    phone: z.string().refine(isValidPhoneNumber, { message: "Número de telefone inválido." }),
 }).refine(data => data.password === data.confirmPassword, {
     message: "As senhas não coincidem.",
     path: ["confirmPassword"],
@@ -109,7 +110,7 @@ export function SignUpForm() {
                             <FormItem>
                                 <FormLabel>Telefone*</FormLabel>
                                 <FormControl>
-                                    <PhoneInput placeholder="Insira seu telefone" defaultCountry="BR" />
+                                    <PhoneInput placeholder="Insira seu telefone" defaultCountry="BR" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
