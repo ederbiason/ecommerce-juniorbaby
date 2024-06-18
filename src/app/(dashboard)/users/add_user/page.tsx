@@ -68,6 +68,12 @@ export default function CreateUserForm() {
                     <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" placeholder="Insira o email do cliente" />
                 </Form.Item>
                 <Form.Item
+                    name="phone"
+                    label="Telefone"
+                >
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="text" placeholder="Insira o telefone do cliente" />
+                </Form.Item>
+                <Form.Item
                     name="isAdmin"
                     label="Administrador"
                 >

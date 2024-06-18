@@ -12,6 +12,7 @@ interface UserProps {
     _id: string
     name: string
     email: string
+    phone: string
     isAdmin: boolean
     isActive: boolean
 }
@@ -47,6 +48,7 @@ export default function EditUser({ params }: { params: any }) {
             form.setFieldsValue({
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
                 isAdmin: user.isAdmin,
                 isActive: user.isActive,
             })
@@ -89,6 +91,7 @@ export default function EditUser({ params }: { params: any }) {
                 initialValues={{
                     name: user?.name,
                     email: user?.email,
+                    phone: user?.phone,
                     isAdmin: user?.isAdmin,
                     isActive: user?.isActive
                 }}
@@ -105,6 +108,13 @@ export default function EditUser({ params }: { params: any }) {
                     label="Email"
                 >
                     <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" />
+                </Form.Item>
+
+                <Form.Item
+                    name="phone"
+                    label="Telefone"
+                >
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="text" />
                 </Form.Item>
 
                 <Form.Item
