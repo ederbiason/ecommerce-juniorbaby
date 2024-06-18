@@ -46,6 +46,7 @@ export default function PersonalInfo() {
                 initialValues={{
                     name: currentUser?.name,
                     email: currentUser?.email,
+                    phone: currentUser?.phone
                 }}
             >
                 <Form.Item
@@ -62,6 +63,14 @@ export default function PersonalInfo() {
                     rules={getAntdFieldRequiredRule("Por favor insira seu email!")}
                 >
                     <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="email" />
+                </Form.Item>
+
+                <Form.Item
+                    name="phone"
+                    label="Telefone"
+                    rules={getAntdFieldRequiredRule("Por favor insira seu telefone!")}
+                >
+                    <input className="w-full border border-gray-700 p-2 text-lg rounded-md" type="text" />
                 </Form.Item>
 
                 <Form.Item
