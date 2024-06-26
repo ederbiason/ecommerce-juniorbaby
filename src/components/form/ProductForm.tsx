@@ -55,6 +55,8 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
+        values: initialValues || {},
+
     })
 
     const getCategories = async() => {
