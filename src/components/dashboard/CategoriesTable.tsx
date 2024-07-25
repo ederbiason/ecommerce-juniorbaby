@@ -111,7 +111,7 @@ export function CategoriesTable() {
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[425px]">
                             <DialogHeader>
-                                <DialogTitle className="text-2xl font-semibold">Nova categoria</DialogTitle>
+                                <DialogTitle className="text-2xl font-semibold">{selectedCategory ? "Editar categoria" : "Nova categoria"}</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4">
                                 <CategoryForm 
@@ -123,15 +123,6 @@ export function CategoriesTable() {
                             </div>
                         </DialogContent>
                     </Dialog>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        <ListFilter />
-                        Filtros
-                    </Button>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        Baixar tudo
-                    </Button>
                 </div>
             </div>
 
