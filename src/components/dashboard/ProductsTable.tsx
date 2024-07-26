@@ -93,15 +93,6 @@ export function ProductsTable() {
                             Adicionar produto
                         </Button>
                     </Link>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        <ListFilter />
-                        Filtros
-                    </Button>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        Baixar tudo
-                    </Button>
                 </div>
             </div>
 
