@@ -142,7 +142,7 @@ export function CategoriesTable() {
                             <TableRow key={category._id}>
                                 <TableCell>{category.name}</TableCell>
                                 <TableCell>{category.description}</TableCell>
-                                <TableCell>{moment(category.createdAt).format("DD MMM YYYY")}</TableCell>
+                                <TableCell>{moment(category.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
                                 <TableCell className="flex items-center gap-2">
                                     <Button 
                                         className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
