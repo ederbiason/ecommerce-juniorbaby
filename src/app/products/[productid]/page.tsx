@@ -1,7 +1,7 @@
 import axios from "axios"
 import { cookies } from "next/headers"
 import ProductImages from "./ProductImages"
-import ProductActionButtons from "./ProductActionButtons"
+import { AddToCartBtn } from "@/components/client/AddToCartBtn"
 
 export default async function ProductInfo({ params }: { params: { productid: string } }) {
     async function getProduct(productid: string) {
@@ -45,9 +45,11 @@ export default async function ProductInfo({ params }: { params: { productid: str
                             R$ {product.price}
                         </h1>
 
-                        <ProductActionButtons
-                            product={product}
-                        />
+                        <div>
+                            <AddToCartBtn
+                                product={product}
+                            />
+                        </div>
                     </div>
                 </div>
             }
