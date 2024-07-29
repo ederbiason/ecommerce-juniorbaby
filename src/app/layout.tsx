@@ -8,7 +8,7 @@ import { StoreProvider } from '@/providers/StoreProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Estoque',
+  title: 'E-Commerce Junior Baby',
   description: 'Homepage do aplicativo de gerenciamento de estoque',
 }
 

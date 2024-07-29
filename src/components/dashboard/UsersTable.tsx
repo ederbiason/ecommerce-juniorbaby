@@ -9,6 +9,15 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Pencil, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -30,6 +39,7 @@ export function UsersTable() {
 
     const [selectedUser, setSelectedUser] = useState<UserProps>()
 
+    const [deleteLoading, setDeleteLoading] = useState(false)
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -51,6 +61,8 @@ export function UsersTable() {
 
     const onDeactivateUser = async (userid: string) => {
         try {
+            setDeleteLoading(true)
+
             const response = await axios.get(`/api/users/${userid}`)
             setSelectedUser(response.data)
 
@@ -75,6 +87,8 @@ export function UsersTable() {
                 description: error.message,
                 variant: "destructive"
             })
+        } finally {
+            setDeleteLoading(false)
         }
     }
 
@@ -130,12 +144,43 @@ export function UsersTable() {
                                 {user.isActive ? "Sim" : "Não"}
                             </TableCell>
                             <TableCell className="flex items-center gap-2">
-                                <Button
-                                    className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-                                    onClick={() => onDeactivateUser(user._id)}
-                                >
-                                    <Trash2 className="text-red-600" />
-                                </Button>
+                            <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button
+                                            className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
+                                        >
+                                            <Trash2 className="text-red-600" />
+                                        </Button>
+                                    </DialogTrigger>
+
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Desativar usuário</DialogTitle>
+                                        </DialogHeader>
+
+                                        <div className="py-5">
+                                            <p>
+                                                Tem certeza que deseja desativar esse usuário?
+                                            </p>
+                                        </div>
+
+                                        <DialogFooter className="sm:justify-between">
+                                            <DialogClose asChild>
+                                                <Button className="bg-red-600 hover:bg-red-300">
+                                                    Cancelar
+                                                </Button>
+                                            </DialogClose>
+
+                                            <Button
+                                                onClick={() => onDeactivateUser(user._id)}
+                                                disabled={deleteLoading && selectedUser?._id === user._id}
+                                            >
+                                                Confirmar
+                                            </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+
                                 <Button
                                     className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
                                     onClick={() => {

@@ -13,7 +13,9 @@ import { Button } from "@/components/ui/button"
 import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import {
     Dialog,
+    DialogClose,
     DialogContent,
+    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
@@ -67,7 +69,7 @@ export function CategoriesTable() {
     const onDelete = async (id: string) => {
         try {
             setLoadingForDelete(true)
-            await axios.delete(`/api/categories/${id}`) 
+            await axios.delete(`/api/categories/${id}`)
             toast({
                 title: 'Sucesso',
                 description: "Categoria deletada com sucesso!",
@@ -105,7 +107,7 @@ export function CategoriesTable() {
                         }}
                     >
                         <DialogTrigger asChild>
-                            <Button className="bg-blue-600 hover:bg-blue-800" onClick={function(event) { setOpen(true); setSelectedCategory(null);}}>
+                            <Button className="bg-blue-600 hover:bg-blue-800" onClick={function (event) { setOpen(true); setSelectedCategory(null); }}>
                                 Adicionar categoria
                             </Button>
                         </DialogTrigger>
@@ -114,7 +116,7 @@ export function CategoriesTable() {
                                 <DialogTitle className="text-2xl font-semibold">{selectedCategory ? "Editar categoria" : "Nova categoria"}</DialogTitle>
                             </DialogHeader>
                             <div className="grid gap-4">
-                                <CategoryForm 
+                                <CategoryForm
                                     selectedCategory={selectedCategory}
                                     setSelectedCategory={setSelectedCategory}
                                     reloadData={() => getCategories()}
@@ -144,14 +146,44 @@ export function CategoriesTable() {
                                 <TableCell>{category.description}</TableCell>
                                 <TableCell>{moment(category.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
                                 <TableCell className="flex items-center gap-2">
-                                    <Button 
-                                        className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-                                        onClick={() => onDelete(category._id)}
-                                        disabled={loadingForDelete && selectedCategory?._id === category._id}
-                                    >
-                                        <Trash2 className="text-red-600" />
-                                    </Button>
-                                    <Button 
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
+                                            >
+                                                <Trash2 className="text-red-600" />
+                                            </Button>
+                                        </DialogTrigger>
+
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Desativar categoria</DialogTitle>
+                                            </DialogHeader>
+
+                                            <div className="py-5">
+                                                <p>
+                                                    Tem certeza que deseja desativar essa categoria?
+                                                </p>
+                                            </div>
+
+                                            <DialogFooter className="sm:justify-between">
+                                                <DialogClose asChild>
+                                                    <Button className="bg-red-600 hover:bg-red-300">
+                                                        Cancelar
+                                                    </Button>
+                                                </DialogClose>
+
+                                                <Button
+                                                    onClick={() => onDelete(category._id)}
+                                                    disabled={loadingForDelete && selectedCategory?._id === category._id}
+                                                >
+                                                    Confirmar
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
+
+                                    <Button
                                         className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
                                         onClick={() => {
                                             setSelectedCategory(category)

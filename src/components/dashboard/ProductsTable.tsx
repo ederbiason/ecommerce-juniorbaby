@@ -10,6 +10,15 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import Link from "next/link"
@@ -126,17 +135,47 @@ export function ProductsTable() {
                             <TableCell>{product.minThreshold}</TableCell>
                             <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
                             <TableCell className="flex items-center gap-2">
-                                <Button 
-                                    className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-                                    onClick={() => {
-                                        setSelectedProduct(product)
-                                        deleteProduct(product._id)
-                                    }}
-                                    disabled={deleteLoading && selectedProduct?._id === product._id}
-                                >
-                                    <Trash2 className="text-red-600" />
-                                </Button>
-                                <Button 
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button
+                                            className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
+                                        >
+                                            <Trash2 className="text-red-600" />
+                                        </Button>
+                                    </DialogTrigger>
+
+                                    <DialogContent>
+                                        <DialogHeader>
+                                            <DialogTitle>Desativar produto</DialogTitle>
+                                        </DialogHeader>
+
+                                        <div className="py-5">
+                                            <p>
+                                                Tem certeza que deseja desativar esse produto?
+                                            </p>
+                                        </div>
+
+                                        <DialogFooter className="sm:justify-between">
+                                            <DialogClose asChild>
+                                                <Button className="bg-red-600 hover:bg-red-300">
+                                                    Cancelar
+                                                </Button>
+                                            </DialogClose>
+
+                                            <Button
+                                                onClick={() => {
+                                                    setSelectedProduct(product)
+                                                    deleteProduct(product._id)
+                                                }}
+                                                disabled={deleteLoading && selectedProduct?._id === product._id}
+                                            >
+                                                Confirmar
+                                            </Button>
+                                        </DialogFooter>
+                                    </DialogContent>
+                                </Dialog>
+
+                                <Button
                                     className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
                                     onClick={() => {
                                         router.push(`/products/edit_product/${product._id}`)
@@ -145,7 +184,7 @@ export function ProductsTable() {
                                     <Pencil className="text-blue-600" />
                                 </Button>
                             </TableCell>
-                    </TableRow>
+                        </TableRow>
                     ))}
                 </TableBody>
             </Table>
