@@ -36,13 +36,14 @@ export interface ProductProps {
     countInStock: number
     minThreshold: number
     images: any
+    isActive: boolean
 }
 
 export function ProductsTable() {
     const router = useRouter()
     const [loading, setLoading] = useState(false)
     const [products, setProducts] = useState<ProductProps[]>([])
-    const [deleteLoading, setDeleteLoading] = useState(false)
+    const [deactivateLoading, setDeactivateLoading] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState<any>(null)
 
     const getProducts = async () => {
@@ -65,25 +66,25 @@ export function ProductsTable() {
         getProducts()
     }, [])
 
-    const deleteProduct = async (productId: string) => {
+    const deactivateProduct = async (productId: string) => {
         try {
-            setDeleteLoading(true)
+            setDeactivateLoading(true)
 
-            await axios.delete(`/api/products/${productId}`)
+            await axios.patch(`/api/products/${productId}`)
             toast({
                 title: 'Sucesso',
-                description: "Produto deletado com sucesso!"
+                description: "Produto desativado com sucesso!"
             })
 
             getProducts()
         } catch (error: any) {
             toast({
-                title: 'Erro ao deletar produto',
+                title: 'Erro ao desativar produto',
                 description: error.message,
                 variant: 'destructive'
             })
         } finally {
-            setDeleteLoading(false)
+            setDeactivateLoading(false)
         }
     }
 
@@ -121,70 +122,72 @@ export function ProductsTable() {
                 </TableHeader>
                 <TableBody>
                     {products.map((product: ProductProps) => (
-                        <TableRow key={product._id}>
-                            <TableCell className="w-10 h-10">
-                                <img
-                                    src={product.images[0]}
-                                    alt={product.name}
-                                />
-                            </TableCell>
-                            <TableCell>{product.name}</TableCell>
-                            <TableCell>{product.category}</TableCell>
-                            <TableCell>R$ {product.price}</TableCell>
-                            <TableCell>{product.countInStock}</TableCell>
-                            <TableCell>{product.minThreshold}</TableCell>
-                            <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
-                            <TableCell className="flex items-center gap-2">
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <Button
-                                            className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-                                        >
-                                            <Trash2 className="text-red-600" />
-                                        </Button>
-                                    </DialogTrigger>
-
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>Desativar produto</DialogTitle>
-                                        </DialogHeader>
-
-                                        <div className="py-5">
-                                            <p>
-                                                Tem certeza que deseja desativar esse produto?
-                                            </p>
-                                        </div>
-
-                                        <DialogFooter className="sm:justify-between">
-                                            <DialogClose asChild>
-                                                <Button className="bg-red-600 hover:bg-red-300">
-                                                    Cancelar
-                                                </Button>
-                                            </DialogClose>
-
+                        product.isActive && (
+                            <TableRow key={product._id}>
+                                <TableCell className="w-10 h-10">
+                                    <img
+                                        src={product.images[0]}
+                                        alt={product.name}
+                                    />
+                                </TableCell>
+                                <TableCell>{product.name}</TableCell>
+                                <TableCell>{product.category}</TableCell>
+                                <TableCell>R$ {product.price}</TableCell>
+                                <TableCell>{product.countInStock}</TableCell>
+                                <TableCell>{product.minThreshold}</TableCell>
+                                <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
+                                <TableCell className="flex items-center gap-2">
+                                    <Dialog>
+                                        <DialogTrigger asChild>
                                             <Button
-                                                onClick={() => {
-                                                    setSelectedProduct(product)
-                                                    deleteProduct(product._id)
-                                                }}
-                                                disabled={deleteLoading && selectedProduct?._id === product._id}
+                                                className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
                                             >
-                                                Confirmar
+                                                <Trash2 className="text-red-600" />
                                             </Button>
-                                        </DialogFooter>
-                                    </DialogContent>
-                                </Dialog>
+                                        </DialogTrigger>
 
-                                <Button
-                                    className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
-                                    onClick={() => {
-                                        router.push(`/products/edit_product/${product._id}`)
-                                    }}
-                                >
-                                    <Pencil className="text-blue-600" />
-                                </Button>
-                            </TableCell>
-                        </TableRow>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Desativar produto</DialogTitle>
+                                            </DialogHeader>
+
+                                            <div className="py-5">
+                                                <p>
+                                                    Tem certeza que deseja desativar esse produto?
+                                                </p>
+                                            </div>
+
+                                            <DialogFooter className="sm:justify-between">
+                                                <DialogClose asChild>
+                                                    <Button className="bg-red-600 hover:bg-red-300">
+                                                        Cancelar
+                                                    </Button>
+                                                </DialogClose>
+
+                                                <Button
+                                                    onClick={() => {
+                                                        setSelectedProduct(product)
+                                                        deactivateProduct(product._id)
+                                                    }}
+                                                    disabled={deactivateLoading && selectedProduct?._id === product._id}
+                                                >
+                                                    Confirmar
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
+
+                                    <Button
+                                        className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
+                                        onClick={() => {
+                                            router.push(`/products/edit_product/${product._id}`)
+                                        }}
+                                    >
+                                        <Pencil className="text-blue-600" />
+                                    </Button>
+                                </TableCell>
+                            </TableRow>
+                        )
                     ))}
                 </TableBody>
             </Table>

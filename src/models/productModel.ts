@@ -35,7 +35,12 @@ const productSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: "users",
         required: true
-    }
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+        required: false,
+    },
 }, {
     timestamps: true
 })

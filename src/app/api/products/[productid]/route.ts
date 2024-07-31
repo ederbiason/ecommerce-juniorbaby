@@ -28,14 +28,14 @@ export async function PUT(request: NextRequest, {params}: {params : {productid: 
     }
 }
 
-export async function DELETE(request: NextRequest, {params}: {params : {productid: string}}) {
+export async function PATCH(request: NextRequest, {params}: {params : {productid: string}}) {
     try {
         await validateJWT(request)
 
-        await Product.findByIdAndDelete(params.productid)
+        await Product.findByIdAndUpdate(params.productid, {isActive: false})
 
         return NextResponse.json({
-            message: "Produto deletado com sucesso!"
+            message: "Produto desativado com sucesso!"
         })
     } catch (error: any) {
         return NextResponse.json({message: error.message}, {status: 500})
