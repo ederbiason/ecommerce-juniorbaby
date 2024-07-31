@@ -33,7 +33,8 @@ export interface CategoryProps {
     createdBy: string,
     createdAt: string,
     updatedAt: string,
-    __v: number
+    __v: number,
+    isActive: boolean
 }
 
 export interface CategoryFormProps {
@@ -44,7 +45,7 @@ export interface CategoryFormProps {
 
 export function CategoriesTable() {
     const [loading, setLoading] = useState(false)
-    const [loadingForDelete, setLoadingForDelete] = useState(false)
+    const [loadingForDeactivate, setLoadingForDeactivate] = useState(false)
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState<CategoryFormProps | null>(null)
 
@@ -66,24 +67,24 @@ export function CategoriesTable() {
         }
     }
 
-    const onDelete = async (id: string) => {
+    const onDeactivate = async (id: string) => {
         try {
-            setLoadingForDelete(true)
-            await axios.delete(`/api/categories/${id}`)
+            setLoadingForDeactivate(true)
+            await axios.patch(`/api/categories/${id}`)
             toast({
                 title: 'Sucesso',
-                description: "Categoria deletada com sucesso!",
+                description: "Categoria desativada com sucesso!",
             })
             setSelectedCategory(null)
             getCategories()
         } catch (error: any) {
             toast({
-                title: 'Erro ao deletar categoria',
+                title: 'Erro ao desativar categoria',
                 description: error.response.data.messaage || error.message,
                 variant: 'destructive'
             })
         } finally {
-            setLoadingForDelete(false)
+            setLoadingForDeactivate(false)
         }
     }
 
@@ -141,59 +142,61 @@ export function CategoriesTable() {
                 <TableBody>
                     {
                         categories.map((category: CategoryProps) => (
-                            <TableRow key={category._id}>
-                                <TableCell>{category.name}</TableCell>
-                                <TableCell>{category.description}</TableCell>
-                                <TableCell>{moment(category.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
-                                <TableCell className="flex items-center gap-2">
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button
-                                                className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
-                                            >
-                                                <Trash2 className="text-red-600" />
-                                            </Button>
-                                        </DialogTrigger>
-
-                                        <DialogContent>
-                                            <DialogHeader>
-                                                <DialogTitle>Desativar categoria</DialogTitle>
-                                            </DialogHeader>
-
-                                            <div className="py-5">
-                                                <p>
-                                                    Tem certeza que deseja desativar essa categoria?
-                                                </p>
-                                            </div>
-
-                                            <DialogFooter className="sm:justify-between">
-                                                <DialogClose asChild>
-                                                    <Button className="bg-red-600 hover:bg-red-300">
-                                                        Cancelar
-                                                    </Button>
-                                                </DialogClose>
-
+                            category.isActive && (
+                                <TableRow key={category._id}>
+                                    <TableCell>{category.name}</TableCell>
+                                    <TableCell>{category.description}</TableCell>
+                                    <TableCell>{moment(category.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
+                                    <TableCell className="flex items-center gap-2">
+                                        <Dialog>
+                                            <DialogTrigger asChild>
                                                 <Button
-                                                    onClick={() => onDelete(category._id)}
-                                                    disabled={loadingForDelete && selectedCategory?._id === category._id}
+                                                    className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
                                                 >
-                                                    Confirmar
+                                                    <Trash2 className="text-red-600" />
                                                 </Button>
-                                            </DialogFooter>
-                                        </DialogContent>
-                                    </Dialog>
+                                            </DialogTrigger>
 
-                                    <Button
-                                        className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
-                                        onClick={() => {
-                                            setSelectedCategory(category)
-                                            setOpen(true)
-                                        }}
-                                    >
-                                        <Pencil className="text-blue-600" />
-                                    </Button>
-                                </TableCell>
-                            </TableRow>
+                                            <DialogContent>
+                                                <DialogHeader>
+                                                    <DialogTitle>Desativar categoria</DialogTitle>
+                                                </DialogHeader>
+
+                                                <div className="py-5">
+                                                    <p>
+                                                        Tem certeza que deseja desativar essa categoria?
+                                                    </p>
+                                                </div>
+
+                                                <DialogFooter className="sm:justify-between">
+                                                    <DialogClose asChild>
+                                                        <Button className="bg-red-600 hover:bg-red-300">
+                                                            Cancelar
+                                                        </Button>
+                                                    </DialogClose>
+
+                                                    <Button
+                                                        onClick={() => onDeactivate(category._id)}
+                                                        disabled={loadingForDeactivate && selectedCategory?._id === category._id}
+                                                    >
+                                                        Confirmar
+                                                    </Button>
+                                                </DialogFooter>
+                                            </DialogContent>
+                                        </Dialog>
+
+                                        <Button
+                                            className="bg-transparent hover:bg-blue-300 hover:rounded-full p-2"
+                                            onClick={() => {
+                                                setSelectedCategory(category)
+                                                setOpen(true)
+                                            }}
+                                        >
+                                            <Pencil className="text-blue-600" />
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            )
                         ))
                     }
                 </TableBody>

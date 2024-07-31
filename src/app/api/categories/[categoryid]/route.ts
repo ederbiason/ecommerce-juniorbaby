@@ -19,14 +19,14 @@ export async function PUT(request: NextRequest, {params}: {params : {categoryid:
     }
 }
 
-export async function DELETE(request: NextRequest, {params}: {params : {categoryid: string}}) {
+export async function PATCH(request: NextRequest, {params}: {params : {categoryid: string}}) {
     try {
         await validateJWT(request)
 
-        await Category.findByIdAndDelete(params.categoryid)
+        await Category.findByIdAndUpdate(params.categoryid, {isActive: false})
 
         return NextResponse.json({
-            message: "Categoria deletada com sucesso!"
+            message: "Categoria desativada com sucesso!"
         })
     } catch (error: any) {
         return NextResponse.json({message: error.message}, {status: 500})
