@@ -81,6 +81,8 @@ export function UsersTable() {
                     variant: "destructive"
                 })
             }
+
+            getUsers()
         } catch (error: any) {
             toast({
                 title: "Erro",
@@ -144,7 +146,7 @@ export function UsersTable() {
                                 {user.isActive ? "Sim" : "Não"}
                             </TableCell>
                             <TableCell className="flex items-center gap-2">
-                            <Dialog>
+                                <Dialog key={user.isActive}>
                                     <DialogTrigger asChild>
                                         <Button
                                             className="bg-transparent hover:bg-red-300 hover:rounded-full p-2"
