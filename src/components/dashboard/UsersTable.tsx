@@ -19,12 +19,13 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Pencil, Trash2 } from "lucide-react"
+import { Check, Copy, Pencil, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter } from "next/navigation"
 import { Loader } from "../Loader"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 
 interface UserProps {
     _id: string
@@ -39,6 +40,7 @@ export function UsersTable() {
 
     const [selectedUser, setSelectedUser] = useState<UserProps>()
 
+    const [copied, setCopied] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState(false)
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false)
@@ -94,6 +96,16 @@ export function UsersTable() {
         }
     }
 
+    const copyIdToClipboard = (userid: string) => {
+        navigator.clipboard.writeText(userid)
+
+        setCopied(true);
+
+        setTimeout(() => {
+            setCopied(false)
+        }, 1000)
+    }
+
     useEffect(() => {
         getUsers()
     }, [])
@@ -108,7 +120,7 @@ export function UsersTable() {
                 </h1>
 
                 <div className="flex items-center justify-center gap-4">
-                    <Button 
+                    <Button
                         className="bg-blue-600 hover:bg-blue-800"
                         onClick={() => {
                             router.push(`/users/add_user`)
@@ -133,9 +145,35 @@ export function UsersTable() {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {users.map((user: any) => (
+                    {users.map((user: any, index) => (
                         <TableRow key={user._id}>
-                            <TableCell>{user._id}</TableCell>
+                            <HoverCard>
+                                <HoverCardTrigger>
+                                    <TableCell>
+                                        {index + 1}
+                                    </TableCell>
+                                </HoverCardTrigger>
+
+                                <HoverCardContent className="w-fit">
+                                    <div className="p-2 border-2 rounded-md w-full">
+                                        <div className="flex justify-between items-center gap-2">
+                                            <p className="">
+                                                {user._id}
+                                            </p>
+                                            <div
+                                                className="bg-blue-900 rounded-md p-2"
+                                                onClick={() => copyIdToClipboard(user._id)}
+                                            >
+                                                {copied ? (
+                                                    <Check className="text-white animate-ping" size={16} />
+                                                ) : (
+                                                    <Copy className="text-white" size={16} />
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </HoverCardContent>
+                            </HoverCard>
                             <TableCell>{user.name}</TableCell>
                             <TableCell>{user.email}</TableCell>
                             <TableCell>{user.phone}</TableCell>
