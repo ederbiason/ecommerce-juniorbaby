@@ -30,7 +30,7 @@ import { toast } from "@/components/ui/use-toast"
 import { uploadImageAndReturnUrls } from "@/helpers/imageHandling"
 
 interface ProductFormProps {
-    initialValues?: any 
+    initialValues?: any
     existingImages?: any
     setExistingImages?: any
     productEditId?: any
@@ -44,21 +44,25 @@ export const FormSchema = z.object({
     countInStock: z.coerce.number(),
     minThreshold: z.coerce.number(),
     images: z.any(),
+    isActive: z.boolean()
 })
 
-export function ProductForm({initialValues, existingImages, setExistingImages, productEditId}: ProductFormProps) {
+export function ProductForm({ initialValues, existingImages, setExistingImages, productEditId }: ProductFormProps) {
     const router = useRouter()
-    
+
+    console.log("valores iniciais: ", initialValues)
+
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
+    const [isActive, setIsActive] = useState(initialValues?.isActive ?? false)
     const [selectedFiles = [], setSelectedFiles] = useState<any>([])
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
-        values: initialValues || {},
+        values: initialValues,
     })
 
-    const getCategories = async() => {
+    const getCategories = async () => {
         try {
             const response = await axios.get("/api/categories")
             setCategories(response.data.data)
@@ -98,15 +102,12 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
     }
 
     async function onEdit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
-        console.log("Oi")
         try {
-            
             setLoading(true)
             const newImages = await uploadImageAndReturnUrls(selectedFiles)
             const newAndExistingImages = [...existingImages, ...newImages]
             data.images = newAndExistingImages
-            
+
             await axios.put(`/api/products/${productEditId}`, data)
             toast({
                 title: 'Sucesso',
@@ -129,7 +130,7 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
     const textButton = initialValues ? "Editar" : "Adicionar"
 
     function onButtonClick(data: z.infer<typeof FormSchema>) {
-        if(textButton === "Adicionar") {
+        if (textButton === "Adicionar") {
             onSubmit(data)
         } else {
             onEdit(data)
@@ -249,6 +250,33 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
                     )}
                 />
 
+                {
+                    initialValues && (
+                        <FormField
+                            control={form.control}
+                            defaultValue={initialValues.isActive}
+                            name="isActive"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Status</FormLabel>
+                                    <Select onValueChange={(value) => field.onChange(value === 'active')} defaultValue={isActive ? 'active' : 'inactive'}  value={form.watch('isActive') ? 'active' : 'inactive'}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Selecione o status do produto" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="active">Ativo</SelectItem>
+                                            <SelectItem value="inactive">Inativo</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    )
+                }
+
                 <div className="col-span-4 flex gap-5">
                     {initialValues?.images && existingImages.map((image: any) => (
                         <div
@@ -259,7 +287,7 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
                             <h1
                                 className="cursor-pointer underline text-red-500"
                                 onClick={() => {
-                                    setExistingImages((prev: any) => 
+                                    setExistingImages((prev: any) =>
                                         prev.filter((i: any) => i !== image)
                                     )
                                 }}
@@ -297,7 +325,7 @@ export function ProductForm({initialValues, existingImages, setExistingImages, p
                 </div>
 
                 <div className="flex items-center justify-end gap-3 col-span-4">
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400" onClick={() => router.back()}>
+                    <Button type="button" className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-400" onClick={() => router.back()}>
                         Cancelar
                     </Button>
 

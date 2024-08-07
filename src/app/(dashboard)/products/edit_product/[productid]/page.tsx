@@ -1,17 +1,27 @@
 "use client"
 
 import { Loader } from "@/components/Loader"
-import { ProductProps } from "@/components/dashboard/ProductsTable"
 import { ProductForm } from "@/components/form/ProductForm"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "@/components/ui/use-toast"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+type ProductProps = {
+    name: string,
+    description: string,
+    price: number,
+    category: string,
+    images: any,
+    countInStock: number,
+    minThreshold: number,
+    isActive: boolean
+}
+
 export default function EditProduct({ params }: { params: any }) {
     const [existingImages= [], setExistingImages] = useState<any[]>([])
     const [loadingProduct, setLoadingProduct] = useState(false)
-    const [product, setProduct] = useState<any>([])
+    const [product, setProduct] = useState<ProductProps[]>([])
 
     const getProduct = async () => {
         try {

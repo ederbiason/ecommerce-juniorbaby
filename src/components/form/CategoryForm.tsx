@@ -117,7 +117,7 @@ export function CategoryForm({ selectedCategory, setOpen, setSelectedCategory, r
                                     <Select onValueChange={(value) => field.onChange(value === 'active')} defaultValue={field.value ? 'active' : 'inactive'} >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Select a verified email to display" />
+                                                <SelectValue placeholder="Selecione o status da categoria" />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
