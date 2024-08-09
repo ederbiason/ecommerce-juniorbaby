@@ -5,6 +5,17 @@ import { useEffect, useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Search } from "@/components/ui/search"
+import {
+    Menubar,
+    MenubarContent,
+    MenubarItem,
+    MenubarMenu,
+    MenubarSeparator,
+    MenubarShortcut,
+    MenubarTrigger,
+} from "@/components/ui/menubar"
+import { Menu } from "lucide-react"
+
 
 type CategoryProps = {
     _id: string,
@@ -65,26 +76,39 @@ export function Filters() {
     }, [search])
 
     return (
-        <div className="flex flex-col gap-5">
-            <div className="flex gap-10 bg-gray-300 py-2 px-5">
-                {categories.map((category: CategoryProps) => (
-                    category.isActive && (
-                        <div
-                            key={category._id}
-                            onClick={() => onSelectedCategory(category)}
-                            className={`cursor-pointer text-gray-500 ${selectedCategory === category._id ? "text-black font-semibold" : ""}`}
-                        >
-                            <span>
-                                {category.name === "" ? "Todos" : category.name}
-                            </span>
-                        </div>
-                    )
-                ))}
+        <div className="flex gap-5 w-full justify-between px-8 bg-gray-300 items-center">
+            <div className="flex gap-10 py-3">
+                <Menubar>
+                    <MenubarMenu>
+                        <MenubarTrigger className="flex gap-3">
+                            <Menu />
+                            CATEGORIAS
+                        </MenubarTrigger>
+
+                        <MenubarContent>
+                            {categories.map((category: CategoryProps) => (
+                                category.isActive && (
+
+                                    <MenubarItem
+                                        key={category._id}
+                                        onClick={() => onSelectedCategory(category)}
+                                        className={`p-3 cursor-pointer text-gray-500 ${selectedCategory === category._id ? "text-black font-semibold" : ""}`}
+                                    >
+                                        <span>
+                                            {category.name === "" ? "Todos" : category.name}
+                                        </span>
+                                    </MenubarItem>
+                                )
+                            ))}
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
             </div>
 
             <Search
                 type="text"
-                placeholder="Procurar produtos"
+                placeholder="Pesquise o seu produto"
+                className="w-96"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
             />
