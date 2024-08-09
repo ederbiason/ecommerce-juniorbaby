@@ -4,14 +4,16 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "@/components/ui/use-toast"
 import { useRouter, useSearchParams } from "next/navigation"
+import { Search } from "@/components/ui/search"
 
 type CategoryProps = {
     _id: string,
     name: string
+    isActive: boolean
 }
 
 export function Filters() {
-    const router = useRouter() 
+    const router = useRouter()
     const searchParams = useSearchParams()
 
     const [search, setSearch] = useState<string>("")
@@ -24,7 +26,8 @@ export function Filters() {
 
             const tempCategories: any = [{
                 name: "",
-                _id: ""
+                _id: "",
+                isActive: true
             }]
 
             tempCategories.push(...response.data.data)
@@ -52,21 +55,39 @@ export function Filters() {
         router.push(`/?${newSearchParams.toString()}`)
     }
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const newSearchParams = new URLSearchParams(searchParams.toString())
+            newSearchParams.set("search", search)
+
+            router.push(`/?${newSearchParams.toString()}`)
+        }, 500)
+    }, [search])
+
     return (
-        <div>
+        <div className="flex flex-col gap-5">
             <div className="flex gap-10 bg-gray-300 py-2 px-5">
                 {categories.map((category: CategoryProps) => (
-                    <div 
-                        key={category._id}
-                        onClick={() => onSelectedCategory(category)}
-                        className={`cursor-pointer text-gray-500 ${selectedCategory === category._id ? "text-black font-semibold" : ""}`}
-                    >
-                        <span>
-                            {category.name === "" ? "Todos" : category.name}
-                        </span>
-                    </div>
+                    category.isActive && (
+                        <div
+                            key={category._id}
+                            onClick={() => onSelectedCategory(category)}
+                            className={`cursor-pointer text-gray-500 ${selectedCategory === category._id ? "text-black font-semibold" : ""}`}
+                        >
+                            <span>
+                                {category.name === "" ? "Todos" : category.name}
+                            </span>
+                        </div>
+                    )
                 ))}
             </div>
+
+            <Search
+                type="text"
+                placeholder="Procurar produtos"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
         </div>
     )
 }
