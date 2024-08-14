@@ -38,12 +38,18 @@ export function CategoryForm({ selectedCategory, setOpen, setSelectedCategory, r
 
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
+        defaultValues: {
+            name: selectedCategory?.name || "",
+            description: selectedCategory?.description || "",
+            isActive: selectedCategory?.isActive ?? true,
+        }
     })
 
     async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
+            console.log("submitou")
             setLoading(true)
-            if (selectedCategory) {
+            if (selectedCategory !== null) {
                 await axios.put(`/api/categories/${selectedCategory._id}`, data)
                 toast({
                     title: 'Sucesso',
@@ -74,7 +80,6 @@ export function CategoryForm({ selectedCategory, setOpen, setSelectedCategory, r
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5">
                 <FormField
                     control={form.control}
-                    defaultValue={selectedCategory?.name}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
@@ -89,7 +94,6 @@ export function CategoryForm({ selectedCategory, setOpen, setSelectedCategory, r
 
                 <FormField
                     control={form.control}
-                    defaultValue={selectedCategory?.description}
                     name="description"
                     render={({ field }) => (
                         <FormItem>

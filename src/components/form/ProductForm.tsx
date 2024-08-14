@@ -197,7 +197,7 @@ export function ProductForm({ initialValues, existingImages, setExistingImages, 
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Categoria</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value} value={initialValues?.category}>
+                            <Select onValueChange={field.onChange} defaultValue={initialValues?.category} value={form.watch('category')}>
                                 <FormControl>
                                     <SelectTrigger>
                                         <SelectValue placeholder="Selecione uma categoria" />
@@ -206,13 +206,15 @@ export function ProductForm({ initialValues, existingImages, setExistingImages, 
                                 <SelectContent>
                                     {
                                         categories.map((category: any) => (
-                                            <SelectItem
-                                                key={category._id}
-                                                value={category.name}
-                                                defaultChecked={category.name}
-                                            >
-                                                {category.name}
-                                            </SelectItem>
+                                            category.isActive && (
+                                                <SelectItem
+                                                    key={category._id}
+                                                    value={category.name}
+                                                    defaultChecked={category.name}
+                                                >
+                                                    {category.name}
+                                                </SelectItem>
+                                            )
                                         ))
                                     }
                                 </SelectContent>
@@ -259,7 +261,7 @@ export function ProductForm({ initialValues, existingImages, setExistingImages, 
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Status</FormLabel>
-                                    <Select onValueChange={(value) => field.onChange(value === 'active')} defaultValue={isActive ? 'active' : 'inactive'}  value={form.watch('isActive') ? 'active' : 'inactive'}>
+                                    <Select onValueChange={(value) => field.onChange(value === 'active')} defaultValue={isActive ? 'active' : 'inactive'} value={form.watch('isActive') ? 'active' : 'inactive'}>
                                         <FormControl>
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Selecione o status do produto" />
