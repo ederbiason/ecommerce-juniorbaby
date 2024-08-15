@@ -30,6 +30,7 @@ export default function ProductImages({product}: {product: any}) {
                 alt=""
                 height={400}
                 width={400}
+                className="object-contain h-[400px] w-[400px]"
             />
         </div>
     )

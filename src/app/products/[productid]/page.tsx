@@ -2,6 +2,7 @@ import axios from "axios"
 import { cookies } from "next/headers"
 import ProductImages from "./ProductImages"
 import { AddToCartBtn } from "@/components/client/AddToCartBtn"
+import { ProductReviews } from "./ProductReviews"
 
 export default async function ProductInfo({ params }: { params: { productid: string } }) {
     async function getProduct(productid: string) {
@@ -50,6 +51,10 @@ export default async function ProductInfo({ params }: { params: { productid: str
                                 product={product}
                             />
                         </div>
+
+                        <hr className="border-zinc-500 mt-3" />
+
+                        <ProductReviews product={product} />
                     </div>
                 </div>
             }

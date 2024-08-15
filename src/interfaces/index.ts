@@ -8,5 +8,7 @@ export interface ProductInterface {
     createdAt?: string,
     updatedAt?: string,
     quantity: number,
-    _id?: string
+    _id?: string,
+    isActive: boolean,
+    rating: number
 }

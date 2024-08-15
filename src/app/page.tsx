@@ -2,6 +2,7 @@ import { AddToCartBtn } from "@/components/client/AddToCartBtn"
 import { Filters } from "@/components/Filters"
 import { Rate } from "antd"
 import axios from "axios"
+import { Heart } from "lucide-react"
 import { cookies } from "next/headers"
 import Image from "next/image"
 import Link from "next/link"
@@ -39,7 +40,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
         <div className="grid md:grid-cols-2 2xl:grid-cols-5 lg:grid-cols-3 gap-8 px-20 py-10">
           {products.map((product: any) => (
             product.isActive && (
-              <div key={product._id} className="gap-2 flex flex-col p-4 border border-solid border-gray-400 rounded-md">
+              <div key={product._id} className="gap-2 flex flex-col p-4 border border-solid border-gray-400 rounded-md relative">
                 <Link
                   href={`/products/${product._id}`}
                   className="h-full flex flex-col justify-between items-center"
@@ -68,6 +69,10 @@ export default async function Home({ searchParams }: { searchParams: any }) {
                       product={product}
                     />
                   </div>
+                </div>
+
+                <div className="absolute right-5 hover:bg-zinc-300 p-2 rounded-full">
+                  <Heart size={24} />
                 </div>
               </div>
             )
