@@ -18,25 +18,55 @@ import { Textarea } from "@/components/ui/textarea"
 import { Rate } from "antd"
 
 export function ProductReviews({ product }: { product: ProductInterface }) {
-    const [reviews, setReviews] = useState([])
+    const [reviews, setReviews] = useState<any[]>([])
     const [comment, setComment] = useState<string>("")
     const [rating, setRating] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(true)
+    const [loadingSubmit, setLoadingSubmit] = useState(false)
 
     const getReviews = async () => {
         try {
             const endPoint = `/api/reviews?product=${product._id}`
             const response = await axios.get(endPoint)
 
-            setReviews(response.data)
+            setReviews(Array.isArray(response.data) ? response.data : [])
         } catch (error: any) {
             toast({
-                title: 'Erro na busca do produto',
+                title: 'Erro na busca das avaliações',
                 description: error.message,
                 variant: 'destructive'
             })
         } finally {
             setLoading(false)
+        }
+    }
+
+    const onSubmiReview = async () => {
+        try {
+            setLoadingSubmit(true)
+
+            const endPoint = "/api/reviews"
+
+            await axios.post(endPoint, {
+                comment,
+                rating,
+                product: product._id
+            })
+
+            toast({
+                title: 'Sucesso',
+                description: "Avaliação criada com sucesso!",
+            })
+
+            getReviews()
+        } catch (error: any) {
+            toast({
+                title: 'Erro na criação da avaliação',
+                description: error.message,
+                variant: 'destructive'
+            })
+        } finally {
+            setLoadingSubmit(false)
         }
     }
 
@@ -86,7 +116,8 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
                             </DialogClose>
 
                             <Button
-                                
+                                onClick={onSubmiReview}
+                                disabled={loadingSubmit}
                             >
                                 Avaliar
                             </Button>
