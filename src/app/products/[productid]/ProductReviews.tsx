@@ -29,7 +29,7 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
             const endPoint = `/api/reviews?product=${product._id}`
             const response = await axios.get(endPoint)
 
-            setReviews(Array.isArray(response.data) ? response.data : [])
+            setReviews(response.data)
         } catch (error: any) {
             toast({
                 title: 'Erro na busca das avaliações',

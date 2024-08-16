@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
         const reqBody = await request.json()
         reqBody.user = userId
-        
+
         const newReview = new Review(reqBody)
 
         await newReview.save()
@@ -34,9 +34,7 @@ export async function GET(request: NextRequest) {
         const product = searchParams.get("product")
         const reviews = await Review.find({ product })
 
-        return NextResponse.json({
-            reviews
-        })
+        return NextResponse.json(reviews)
     } catch (error: any) {
         return NextResponse.json({
             message: error.message

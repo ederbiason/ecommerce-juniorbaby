@@ -20,7 +20,7 @@ const reviewSchema = new mongoose.Schema({
         required: true
     }
 }, { 
-    timestramps: true,
+    timestamps: true,
 })
 
 if(mongoose.models && mongoose.models["reviews"])
