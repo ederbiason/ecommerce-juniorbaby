@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { toast } from "@/components/ui/use-toast"
 import { ProductInterface } from "@/interfaces"
 import axios from "axios"
-import { Star } from "lucide-react"
+import { Star, User } from "lucide-react"
 import { useEffect, useState } from "react"
 import {
     Dialog,
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 import { Rate } from "antd"
+import moment from "moment"
 
 export function ProductReviews({ product }: { product: ProductInterface }) {
     const [reviews, setReviews] = useState<any[]>([])
@@ -23,6 +24,7 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
     const [rating, setRating] = useState<number>(0)
     const [loading, setLoading] = useState<boolean>(true)
     const [loadingSubmit, setLoadingSubmit] = useState(false)
+    const [open, setOpen] = useState<boolean>(false)
 
     const getReviews = async () => {
         try {
@@ -59,6 +61,7 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
             })
 
             getReviews()
+            setOpen(false)
         } catch (error: any) {
             toast({
                 title: 'Erro na criação da avaliação',
@@ -81,9 +84,21 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
                     Reviews
                 </h1>
 
-                <Dialog>
+                <Dialog
+                    open={open}
+                    onOpenChange={(isOpen) => {
+                        if (isOpen === true) return
+                        setOpen(false)
+                    }}
+                >
                     <DialogTrigger asChild>
-                        <Button className="flex gap-2 items-center justify-center">
+                        <Button 
+                            className="flex gap-2 items-center justify-center" 
+                            onClick={() => {
+                                setOpen(true)
+                                setComment("")
+                                setRating(0)
+                            }}>
                             <Star />
                             Faça sua avaliação!
                         </Button>
@@ -96,7 +111,7 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
                             <div className="flex flex-col gap-2">
                                 <span>Comentário</span>
 
-                                <Textarea 
+                                <Textarea
                                     value={comment}
                                     onChange={(e) => setComment(e.target.value)}
                                 />
@@ -140,8 +155,34 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
                         </span>
                     </div>
                 ) : (
-                    <div className="mt-5">
-                        reviews
+                    <div
+                        className="flex flex-col gap-5 mt-5"
+                    >
+                        {reviews.map((review) => (
+                            <div
+                                key={review._id}
+                                className="border border-zinc-700 rounded-lg px-5 py-3 flex flex-col gap-3"
+                            >
+                                <div className="flex justify-between items-center">
+                                    <div className="flex gap-5 items-center">
+                                        <div className="p-1 bg-zinc-500 rounded-full">
+                                            <User size={30} />
+                                        </div>
+
+                                        <div className="flex flex-col">
+                                            <span>{review.user.name}</span>
+                                            <span className="text-sm text-zinc-400">Avaliado em: {moment(review.createdAt).format("DD MMM YYYY HH:mm")}</span>
+                                        </div>
+                                    </div>
+
+                                    <Rate disabled value={review.rating} />
+                                </div>
+
+                                <p className="text-zinc-600 text-lg">
+                                    {review.comment !== "" ? review.comment : "Nenhum comentário."}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 )
             }

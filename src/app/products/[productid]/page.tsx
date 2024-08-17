@@ -3,6 +3,7 @@ import { cookies } from "next/headers"
 import ProductImages from "./ProductImages"
 import { AddToCartBtn } from "@/components/client/AddToCartBtn"
 import { ProductReviews } from "./ProductReviews"
+import { Rate } from "antd"
 
 export default async function ProductInfo({ params }: { params: { productid: string } }) {
     async function getProduct(productid: string) {
@@ -46,7 +47,9 @@ export default async function ProductInfo({ params }: { params: { productid: str
                             R$ {product.price}
                         </h1>
 
-                        <div>
+                        <Rate disabled defaultValue={product.rating} />
+
+                        <div className="mt-3">
                             <AddToCartBtn
                                 product={product}
                             />

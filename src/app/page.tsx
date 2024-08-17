@@ -60,7 +60,7 @@ export default async function Home({ searchParams }: { searchParams: any }) {
                 </Link>
 
                 <div className="flex flex-col items-center justify-center gap-3">
-                  <Rate defaultValue={product.rating || 3} />
+                  <Rate disabled defaultValue={product.rating} />
                   <div className="flex gap-5 items-center">
                     <h1 className="font-semibold">
                       R$ {product.price}
