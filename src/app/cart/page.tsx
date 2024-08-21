@@ -8,15 +8,64 @@ import Image from "next/image"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CheckoutModal } from "./CheckoutModal"
+import axios from "axios"
 
 export default function Cart() {
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
+    const [shippingOptions, setShippingOptions] = useState([])
 
     const { cartItems }: CartState = useSelector((state: any) => state.cart)
     const dispatch = useDispatch()
 
     const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     const total = subTotal + 25
+
+    const getShippingOptions = async (customerPostalpCode: string) => {
+        const payload = {
+            from: { postal_code: '86700090' }, // CEP da Loja Junior Baby
+            to: { postal_code: customerPostalpCode }, // CEP de destino
+            products: [
+                {
+                    id: '123',
+                    width: 11,
+                    height: 17,
+                    length: 25,
+                    weight: 0.5,
+                    insurance_value: 100,
+                    quantity: 1
+                }
+            ],
+            services: '1,2', // IDs dos serviços de frete desejados
+            options: {
+                receipt: false,
+                own_hand: false,
+                collect: false,
+                reverse: false,
+                non_commercial: false
+            },
+            agency: null,
+            order: null
+        }
+
+        const options = {
+            method: 'POST',
+            url: 'https://www.melhorenvio.com.br/api/v2/me/shipment/calculate',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${process.env.shipping_token}`,
+                'User-Agent': 'Aplicação ederbiason.eh@edu.unifil.br'
+            },
+            data: {}
+        }
+
+        try {
+            const response = await axios.request(options)
+            setShippingOptions(response.data)
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <div className="p-5 pt-10">
