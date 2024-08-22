@@ -5,14 +5,16 @@ import { Separator } from "@/components/ui/separator"
 import { CartState, EditProductInCart, RemoveProductFromCart } from "@/redux/cartSlice"
 import { Frown, Minus, Plus, ShoppingCart } from "lucide-react"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CheckoutModal } from "./CheckoutModal"
 import axios from "axios"
+import { Input } from "@/components/ui/input"
 
 export default function Cart() {
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
-    const [shippingOptions, setShippingOptions] = useState([])
+    const [clientPostalCode, setClientPostalCode] = useState("")
+    const [availableShippingOptions, setAvailableShippingOptions] = useState([])
 
     const { cartItems }: CartState = useSelector((state: any) => state.cart)
     const dispatch = useDispatch()
@@ -20,52 +22,22 @@ export default function Cart() {
     const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
     const total = subTotal + 25
 
-    const getShippingOptions = async (customerPostalpCode: string) => {
-        const payload = {
-            from: { postal_code: '86700090' }, // CEP da Loja Junior Baby
-            to: { postal_code: customerPostalpCode }, // CEP de destino
-            products: [
-                {
-                    id: '123',
-                    width: 11,
-                    height: 17,
-                    length: 25,
-                    weight: 0.5,
-                    insurance_value: 100,
-                    quantity: 1
-                }
-            ],
-            services: '1,2', // IDs dos serviços de frete desejados
-            options: {
-                receipt: false,
-                own_hand: false,
-                collect: false,
-                reverse: false,
-                non_commercial: false
-            },
-            agency: null,
-            order: null
-        }
-
-        const options = {
-            method: 'POST',
-            url: 'https://www.melhorenvio.com.br/api/v2/me/shipment/calculate',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.shipping_token}`,
-                'User-Agent': 'Aplicação ederbiason.eh@edu.unifil.br'
-            },
-            data: {}
-        }
-
+    const getShippingOptions = async (customerPostalCode: string) => {
         try {
-            const response = await axios.request(options)
-            setShippingOptions(response.data)
+            const response = await axios.post('/api/shipment', { customerPostalCode })
+            
+            const shippingOptions = response.data.shippingOptions.filter((option: any) => option.price)
+
+            setAvailableShippingOptions(shippingOptions)
+
+            setClientPostalCode("")
         } catch (error) {
             console.error(error)
         }
     }
+
+    // Imprime apenas os fretes disponíveis
+    console.log(availableShippingOptions)
 
     return (
         <div className="p-5 pt-10">
@@ -188,6 +160,20 @@ export default function Cart() {
                                 <span>
                                     R$ 25
                                 </span>
+                            </div>
+
+                            <div className="flex items-center justify-center gap-3 mt-5">
+                                <Input
+                                    placeholder="Insira seu CEP"
+                                    onChange={(e) => setClientPostalCode(e.target.value)}
+                                    value={clientPostalCode}
+                                />
+
+                                <Button
+                                    onClick={() => getShippingOptions(clientPostalCode)}
+                                >
+                                    Calcular
+                                </Button>
                             </div>
 
                             <Separator />
