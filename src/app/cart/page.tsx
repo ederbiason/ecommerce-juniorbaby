@@ -5,28 +5,43 @@ import { Separator } from "@/components/ui/separator"
 import { CartState, EditProductInCart, RemoveProductFromCart } from "@/redux/cartSlice"
 import { Frown, Minus, Plus, ShoppingCart } from "lucide-react"
 import Image from "next/image"
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { CheckoutModal } from "./CheckoutModal"
 import axios from "axios"
-import { Input } from "@/components/ui/input"
 import { ShippingInterface } from "@/interfaces"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import InputMask from "react-input-mask"
 
 export default function Cart() {
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
     const [clientPostalCode, setClientPostalCode] = useState("")
     const [availableShippingOptions, setAvailableShippingOptions] = useState([])
+    const [selectedShipping, setSelectedShipping] = useState<ShippingInterface | null>(null)
 
     const { cartItems }: CartState = useSelector((state: any) => state.cart)
     const dispatch = useDispatch()
 
     const subTotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const total = subTotal + 25
+    const total = subTotal + (selectedShipping ? Number(selectedShipping.price) : 0)
+
+    const handleShippingValueChange = (value: string) => {
+        const selectedOption = availableShippingOptions.find((option: ShippingInterface) => option.name === value)
+        if (selectedOption) {
+            setSelectedShipping(selectedOption)
+        }
+    }
+
+    const handlePostalCodeInput = (e: ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value.replace(/-/, '')
+        setClientPostalCode(rawValue)
+    }
 
     const getShippingOptions = async (customerPostalCode: string) => {
         try {
+            setAvailableShippingOptions([])
+
             const response = await axios.post('/api/shipment', { customerPostalCode })
 
             const shippingOptions = response.data.shippingOptions.filter((option: any) => option.price)
@@ -38,9 +53,6 @@ export default function Cart() {
             console.error(error)
         }
     }
-
-    // Imprime apenas os fretes disponíveis
-    console.log(availableShippingOptions)
 
     return (
         <div className="p-5 pt-10">
@@ -161,7 +173,7 @@ export default function Cart() {
                                 </span>
 
                                 <span>
-                                    R$ 25
+                                    R$ {selectedShipping ? selectedShipping.price : 0}
                                 </span>
                             </div>
 
@@ -177,16 +189,22 @@ export default function Cart() {
                                 </span>
                             </div>
 
-                            <Button className="my-2 mt-5" onClick={() => setShowCheckoutModal(true)}>
+                            <Button 
+                                className="my-2 mt-5" 
+                                onClick={() => setShowCheckoutModal(true)}
+                                disabled={selectedShipping ? false : true}
+                            >
                                 Ir para o pagamento
                             </Button>
 
 
-                            <div className="flex items-center justify-center gap-3 mt-5">
-                                <Input
-                                    placeholder="Insira seu CEP"
-                                    onChange={(e) => setClientPostalCode(e.target.value)}
+                            <div className="flex items-center justify-left gap-3 mt-5">
+                                <InputMask
+                                    mask="99999-999"
+                                    onChange={handlePostalCodeInput}
                                     value={clientPostalCode}
+                                    placeholder="Digite seu CEP aqui"
+                                    className="border border-zinc-400 p-1.5 rounded-lg w-fit"
                                 />
 
                                 <Button
@@ -196,23 +214,28 @@ export default function Cart() {
                                 </Button>
                             </div>
 
-                            {availableShippingOptions.map((shippingOption: ShippingInterface) => (
-                                <div key={shippingOption.company.id}>
-                                    <RadioGroup defaultValue="comfortable">
-                                        <div className="flex items-center space-x-2">
-                                            <Image 
+                            <RadioGroup className="mt-3" onValueChange={handleShippingValueChange}>
+                                {availableShippingOptions.map((shippingOption: ShippingInterface) => (
+                                        <div 
+                                            key={shippingOption.id}
+                                            className="flex items-center space-x-2"
+                                        >
+                                            <Image
                                                 alt="Logo de sistemas de envio e entrega no Braisl"
                                                 src={shippingOption.company.picture}
-                                                width={20}
-                                                height={20}
+                                                width={50}
+                                                height={50}
                                             />
-                                            <RadioGroupItem value="default" id={shippingOption.company.name} />
-                                            <Label htmlFor={shippingOption.company.name}>{shippingOption.company.name}</Label>
+                                            <RadioGroupItem  
+                                                value={shippingOption.name} 
+                                                id={shippingOption.id.toString()} 
+                                                onChange={() => setSelectedShipping(shippingOption)}
+                                            />
+                                            <Label htmlFor={shippingOption.id.toString()}>{shippingOption.company.name}</Label>
                                             <span>R$ {shippingOption.price}</span>
                                         </div>
-                                    </RadioGroup>
-                                </div>
-                            ))}
+                                ))}
+                            </RadioGroup>
                         </div>
                     </div>
                 </div>
