@@ -10,6 +10,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { CheckoutModal } from "./CheckoutModal"
 import axios from "axios"
 import { Input } from "@/components/ui/input"
+import { ShippingInterface } from "@/interfaces"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
 
 export default function Cart() {
     const [showCheckoutModal, setShowCheckoutModal] = useState(false)
@@ -25,7 +28,7 @@ export default function Cart() {
     const getShippingOptions = async (customerPostalCode: string) => {
         try {
             const response = await axios.post('/api/shipment', { customerPostalCode })
-            
+
             const shippingOptions = response.data.shippingOptions.filter((option: any) => option.price)
 
             setAvailableShippingOptions(shippingOptions)
@@ -162,20 +165,6 @@ export default function Cart() {
                                 </span>
                             </div>
 
-                            <div className="flex items-center justify-center gap-3 mt-5">
-                                <Input
-                                    placeholder="Insira seu CEP"
-                                    onChange={(e) => setClientPostalCode(e.target.value)}
-                                    value={clientPostalCode}
-                                />
-
-                                <Button
-                                    onClick={() => getShippingOptions(clientPostalCode)}
-                                >
-                                    Calcular
-                                </Button>
-                            </div>
-
                             <Separator />
 
                             <div className="flex justify-between font-semibold text-xl">
@@ -191,6 +180,39 @@ export default function Cart() {
                             <Button className="my-2 mt-5" onClick={() => setShowCheckoutModal(true)}>
                                 Ir para o pagamento
                             </Button>
+
+
+                            <div className="flex items-center justify-center gap-3 mt-5">
+                                <Input
+                                    placeholder="Insira seu CEP"
+                                    onChange={(e) => setClientPostalCode(e.target.value)}
+                                    value={clientPostalCode}
+                                />
+
+                                <Button
+                                    onClick={() => getShippingOptions(clientPostalCode)}
+                                >
+                                    Calcular
+                                </Button>
+                            </div>
+
+                            {availableShippingOptions.map((shippingOption: ShippingInterface) => (
+                                <div key={shippingOption.company.id}>
+                                    <RadioGroup defaultValue="comfortable">
+                                        <div className="flex items-center space-x-2">
+                                            <Image 
+                                                alt="Logo de sistemas de envio e entrega no Braisl"
+                                                src={shippingOption.company.picture}
+                                                width={20}
+                                                height={20}
+                                            />
+                                            <RadioGroupItem value="default" id={shippingOption.company.name} />
+                                            <Label htmlFor={shippingOption.company.name}>{shippingOption.company.name}</Label>
+                                            <span>R$ {shippingOption.price}</span>
+                                        </div>
+                                    </RadioGroup>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>
