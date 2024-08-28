@@ -108,7 +108,7 @@ export function OrdersTable() {
                     {orders.map((order: any) => (
                         <TableRow key={order._id}>
                             <TableCell>{order._id}</TableCell>
-                            <TableCell>{moment(order.createdAt).format("DD MMM YYYY")}</TableCell>
+                            <TableCell>{moment(order.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
                             <TableCell>R$ {order.total}</TableCell>
                             <TableCell>
                                 {/* <Select

@@ -7,11 +7,20 @@ import axios from "axios"
 import moment from "moment"
 import { useEffect, useState } from "react"
 
+type AddressKeys = 'city' | 'country' | 'line1' | 'line2' | 'postal_code' | 'state'
+
 export default function OrderInfo({ params }: { params: { orderid: string } }) {
     const [order, setOrder] = useState<any>(null)
     const [loading = false, setLoading] = useState<boolean>(false)
 
-    console.log(order)
+    const translationAddressInfo: Record<AddressKeys, string> = {
+        city: 'Cidade',
+        country: 'País',
+        line1: 'Rua',
+        line2: 'Bairro',
+        postal_code: 'CEP',
+        state: 'Estado'
+    };
 
     const getOrder = async () => {
         try {
@@ -61,7 +70,7 @@ export default function OrderInfo({ params }: { params: { orderid: string } }) {
                         {getProperty("ID do Pedido", order._id)}
                         {getProperty(
                             "Criado em",
-                            moment(order.createdAt).format("DD MMM YYYY hh:mm a")
+                            moment(order.createdAt).format("DD MMM YYYY HH:mm")
                         )}
                         {getProperty("Total", `R$ ${order.total}`)}
                         {getProperty("Status do pedido", order.orderStatus ? "Pedido realizado" : "Pedido em andamento")}
@@ -72,8 +81,9 @@ export default function OrderInfo({ params }: { params: { orderid: string } }) {
 
                         <h1 className="text-2xl col-span-3 font-semibold">Informações de entrega</h1>
 
-                        {Object.keys(order.shippingAddress.address).map((key) => {
-                            return getProperty(key, order.shippingAddress.address[key])
+                        {(Object.keys(order.shippingAddress.address) as AddressKeys[]).map((key) => {
+                            const translatedAddressKey = translationAddressInfo[key]
+                            return getProperty(translatedAddressKey, order.shippingAddress.address[key])
                         })}
 
                         <hr className="border-gray-300 border-dashed col-span-3" />
