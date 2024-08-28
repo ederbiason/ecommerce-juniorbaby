@@ -1,10 +1,8 @@
 "use client"
 
 import { redirect } from "next/navigation"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useEffect } from "react"
-import { fetchUser } from "@/redux/userSlice"
 import { UsersOrdersTable } from "./components/UsersOrdersTable"
 import PersonalInfo from "./components/PersonalInfo"
 

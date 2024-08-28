@@ -9,8 +9,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { ListFilter } from "lucide-react"
 import moment from "moment"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -79,17 +77,6 @@ export function OrdersTable() {
                 <h1 className="text-gray-800 text-xl font-semibold">
                     Pedidos
                 </h1>
-
-                <div className="flex items-center justify-center gap-4">
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        <ListFilter />
-                        Filtros
-                    </Button>
-
-                    <Button className="border border-zinc-400 bg-white hover:bg-zinc-200 text-gray-600">
-                        Baixar tudo
-                    </Button>
-                </div>
             </div>
 
             <Table>
