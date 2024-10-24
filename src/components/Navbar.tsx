@@ -1,7 +1,7 @@
 "use client"
 
 import axios from "axios";
-import { LogOut, ShoppingCart, User2, UserCog2 } from "lucide-react";
+import { Heart, LogOut, ShoppingCart, User2, UserCog2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
     Popover,
@@ -16,6 +16,7 @@ import { SetCurrentUser } from "@/redux/userSlice";
 import Link from "next/link";
 import { CartState } from "@/redux/cartSlice";
 import { Badge } from "antd";
+import { FavoriteState } from "@/redux/favoriteSlice";
 
 export interface CurrentUserProps {
     _id: Id
@@ -51,6 +52,7 @@ export function Navbar() {
     const dispatch = useDispatch()
     const { currentUser } = useSelector((state: any) => state.user)
     const { cartItems }: CartState = useSelector((state: any) => state.cart)
+    const { favoriteItems }: FavoriteState = useSelector((state: any) => state.favorite)
 
     const getCurrentUser = async () => {
         try {
@@ -69,13 +71,14 @@ export function Navbar() {
         if (isPrivatePage) {
             getCurrentUser()
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname, isPrivatePage])
 
     useEffect(() => {
         // persistir dados no carrinho
         localStorage.setItem("cartItems", JSON.stringify(cartItems))
-    }, [cartItems])
+        localStorage.setItem("favoriteItems", JSON.stringify(favoriteItems))
+    }, [cartItems, favoriteItems])
 
     const onLogout = async () => {
         try {
@@ -93,7 +96,7 @@ export function Navbar() {
                 title: 'Erro',
                 description: error.response.data.message,
                 variant: 'destructive'
-            })    
+            })
         }
     }
 
@@ -104,14 +107,24 @@ export function Navbar() {
                     <Link href="/">
                         <h1 className="text-2xl font-bold uppercase">
                             <span className="text-blue-900">Junior</span>
-                            {" "} 
+                            {" "}
                             <span className="text-red-800">Baby</span>
                         </h1>
                     </Link>
                 </div>
 
                 <div className="flex gap-5 items-center">
-                    <Badge 
+                    <Badge
+                        count={favoriteItems.length}
+                        className="cursor-pointer"
+                    >
+                        <Heart
+                            className="cursor-pointer"
+                            onClick={() => router.push("/favoriteProducts")}
+                        />
+                    </Badge>
+
+                    <Badge
                         count={cartItems.length}
                         className="cursor-pointer"
                     >
@@ -134,7 +147,7 @@ export function Navbar() {
                         </PopoverTrigger>
                         <PopoverContent className="w-fit font-bold">
                             <div className="flex flex-col gap-3">
-                                <Button 
+                                <Button
                                     className="flex gap-3 bg-blue-500 hover:bg-blue-400"
                                     onClick={(() => {
                                         router.push("/profile")
@@ -142,11 +155,11 @@ export function Navbar() {
                                     })}
                                 >
                                     {currentUser?.isAdmin ? <UserCog2 /> : <User2 />}
-                                    
+
                                     {currentUser?.isAdmin ? "Dashboard" : "Perfil"}
                                 </Button>
 
-                                <Button 
+                                <Button
                                     className="flex gap-3 bg-red-500 hover:bg-red-400"
                                     onClick={(() => onLogout())}
                                 >

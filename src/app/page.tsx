@@ -1,4 +1,5 @@
 import { AddToCartBtn } from "@/components/client/AddToCartBtn"
+import { AddToFavorite } from "@/components/client/AddToFavorite"
 import { Filters } from "@/components/Filters"
 import { Rate } from "antd"
 import axios from "axios"
@@ -72,7 +73,9 @@ export default async function Home({ searchParams }: { searchParams: any }) {
                 </div>
 
                 <div className="absolute right-5 hover:bg-zinc-300 p-2 rounded-full">
-                  <Heart size={24} />
+                  <AddToFavorite
+                    product={product}
+                  />
                 </div>
               </div>
             )
