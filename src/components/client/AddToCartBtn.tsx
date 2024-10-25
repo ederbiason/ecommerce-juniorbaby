@@ -29,7 +29,7 @@ export function AddToCartBtn({ product }: AddToCartBtnProps) {
             }}
             disabled={cartItems.some((item: ProductInterface) => item._id === product._id)}
         >
-            Adicionar no carrinho
+            Adicionar ao carrinho
         </Button>
     )
 }
