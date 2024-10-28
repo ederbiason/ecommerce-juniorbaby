@@ -1,6 +1,6 @@
 "use client"
 import clsx from "clsx";
-import { KanbanSquare, Layers3, PackageSearch, ShoppingBag, Store, UserCircle2 } from "lucide-react";
+import { BarChart4, KanbanSquare, Layers3, PackageSearch, ShoppingBag, Store, UserCircle2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -27,6 +27,11 @@ export function Menu() {
         <Link href="/orders" className={clsx("flex items-center gap-4", pathname == "/orders" && "text-blue-600")}>
             <ShoppingBag />
             Pedidos
+        </Link>
+
+        <Link href="/reports" className={clsx("flex items-center gap-4", pathname == "/reports" && "text-blue-600")}>
+            <BarChart4 />
+            Relatórios
         </Link>
     </div>
   )
