@@ -6,6 +6,7 @@ import { toast } from "@/components/ui/use-toast"
 import { SalesByCategory } from "./SalesByCategory"
 import { Orders } from "@/interfaces"
 import { SalesPerMonth } from "./SalesPerMonth"
+import { SalesPerWeek } from "./SalesPerWeek"
 
 export default function SalesByCategoryChart() {
     const [loading, setLoading] = React.useState(false)
@@ -36,6 +37,7 @@ export default function SalesByCategoryChart() {
         <div className="w-full p-5 flex gap-5 h-fit">
             <SalesByCategory orders={orders} />
             <SalesPerMonth orders={orders} />
+            <SalesPerWeek orders={orders} />
         </div>
     )
 }

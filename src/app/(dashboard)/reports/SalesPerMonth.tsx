@@ -28,11 +28,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-interface SalesByCategoryProps {
+interface SalesPerMonthProps {
   orders: Orders[]
 }
 
-export function SalesPerMonth({ orders }: SalesByCategoryProps) {
+export function SalesPerMonth({ orders }: SalesPerMonthProps) {
   const [topMonth, setTopMonth] = useState<string | null>(null)
 
   const chartData = useMemo(() => {
@@ -64,7 +64,7 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
 
     return Object.entries(monthlyOrderCount).map(([monthYear, count]) => {
       const [year, month] = monthYear.split("-")
-      const monthName = new Date(Number(year), Number(month)).toLocaleString("default", { month: "long" }).toLocaleUpperCase()
+      const monthName = new Date(Number(year), Number(month)).toLocaleString("default", { month: "short" }).toLocaleUpperCase()
       return {
         month: `${monthName} ${year}`,
         orders: count,
@@ -94,8 +94,8 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
               dataKey="month"
               type="category"
               tickLine={false}
-              tickMargin={10}
-              width={90}
+              tickMargin={5}
+              width={75}
               axisLine={false}
             />
             <XAxis dataKey="orders" type="number" hide />
@@ -122,7 +122,7 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 leading-none">
-          O mês de <span className="font-bold">{topMonth}</span> possui o maior número de vendas.
+          O mês de <span className="font-bold">{topMonth}</span> possui o maior número de vendas
         </div>
         <div className="leading-none text-muted-foreground">
           Mostrando a quantidade de pedidos por mês
