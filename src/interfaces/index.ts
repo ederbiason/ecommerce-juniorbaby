@@ -53,3 +53,50 @@ export interface ShippingInterface {
         picture: string
     }
 }
+
+export interface Orders {
+    _id: string
+    user: string
+    items: Item[]
+    paymentStatus: string
+    orderStatus: string
+    shippingAddress: ShippingAddress
+    transactionId: string
+    total: number
+    createdAt: string
+    updatedAt: string
+    __v: number
+}
+
+export interface Item {
+    _id: string
+    name: string
+    description: string
+    category: string
+    price: number
+    countInStock: number
+    minThreshold: number
+    images: string[]
+    createdBy: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+    quantity: number
+}
+
+export interface ShippingAddress {
+    address: Address
+    carrier: any
+    name: string
+    phone: string
+    tracking_number: any
+}
+
+export interface Address {
+    city: string
+    country: string
+    line1: string
+    line2: string
+    postal_code: string
+    state: string
+}
