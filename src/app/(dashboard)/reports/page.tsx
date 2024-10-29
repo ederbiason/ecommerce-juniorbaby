@@ -5,6 +5,7 @@ import axios from "axios"
 import { toast } from "@/components/ui/use-toast"
 import { SalesByCategory } from "./SalesByCategory"
 import { Orders } from "@/interfaces"
+import { SalesPerMonth } from "./SalesPerMonth"
 
 export default function SalesByCategoryChart() {
     const [loading, setLoading] = React.useState(false)
@@ -32,8 +33,9 @@ export default function SalesByCategoryChart() {
     }, [])    
 
     return (
-        <div className="w-full p-5">
+        <div className="w-full p-5 flex flex-col gap-5">
             <SalesByCategory orders={orders} />
+            <SalesPerMonth orders={orders} />
         </div>
     )
 }
