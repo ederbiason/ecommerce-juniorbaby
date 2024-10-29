@@ -155,7 +155,7 @@ export function SalesByCategory({ orders }: SalesByCategoryProps) {
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
-                <div className="font-sm leading-none text-center">
+                <div className="leading-none text-center">
                     Os produtos da categoria <span className="font-bold">{totalSales.topCategory}</span> possui o maior número de vendas.
                 </div>
                 <div className="leading-none text-muted-foreground">

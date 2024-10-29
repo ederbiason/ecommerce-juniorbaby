@@ -33,7 +33,7 @@ export default function SalesByCategoryChart() {
     }, [])    
 
     return (
-        <div className="w-full p-5 flex flex-col gap-5">
+        <div className="w-full p-5 flex gap-5 h-fit">
             <SalesByCategory orders={orders} />
             <SalesPerMonth orders={orders} />
         </div>

@@ -1,6 +1,5 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from "recharts"
 import {
   Card,
@@ -17,13 +16,11 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Orders } from "@/interfaces"
-import { useMemo } from "react"
-
-export const description = "A bar chart with a custom label"
+import { useMemo, useState } from "react"
 
 const chartConfig = {
   desktop: {
-    label: "Orders",
+    label: "Pedidos",
     color: "hsl(var(--chart-1))",
   },
   label: {
@@ -36,8 +33,12 @@ interface SalesByCategoryProps {
 }
 
 export function SalesPerMonth({ orders }: SalesByCategoryProps) {
+  const [topMonth, setTopMonth] = useState<string | null>(null)
+
   const chartData = useMemo(() => {
     const monthlyOrderCount: Record<string, number> = {}
+    let maxOrders = 0
+    let maxMonth = ""
 
     orders.forEach((order) => {
       const orderDate = new Date(order.createdAt)
@@ -47,11 +48,23 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
         monthlyOrderCount[monthYear] = 0
       }
       monthlyOrderCount[monthYear]++
+
+      if (monthlyOrderCount[monthYear] > maxOrders) {
+        maxOrders = monthlyOrderCount[monthYear]
+        maxMonth = monthYear
+      }
     })
+
+    setTopMonth(
+      `${new Date(Number(maxMonth.split("-")[0]), Number(maxMonth.split("-")[1])).toLocaleString(
+        "default",
+        { month: "long", year: "numeric" }
+      )}`
+    )
 
     return Object.entries(monthlyOrderCount).map(([monthYear, count]) => {
       const [year, month] = monthYear.split("-")
-      const monthName = new Date(Number(year), Number(month)).toLocaleString("default", { month: "long" })
+      const monthName = new Date(Number(year), Number(month)).toLocaleString("default", { month: "long" }).toLocaleUpperCase()
       return {
         month: `${monthName} ${year}`,
         orders: count,
@@ -62,8 +75,8 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
   return (
     <Card className="w-[550px]">
       <CardHeader>
-        <CardTitle>Orders Per Month</CardTitle>
-        <CardDescription>Data by Month and Year</CardDescription>
+        <CardTitle>Pedidos por mês</CardTitle>
+        <CardDescription>Dados de mês e vendas</CardDescription>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
@@ -74,7 +87,7 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
             margin={{
               right: 16,
             }}
-            barSize={25}
+            barSize={30}
           >
             <CartesianGrid horizontal={false} />
             <YAxis
@@ -82,6 +95,7 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
               type="category"
               tickLine={false}
               tickMargin={10}
+              width={90}
               axisLine={false}
             />
             <XAxis dataKey="orders" type="number" hide />
@@ -96,13 +110,6 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
               radius={4}
             >
               <LabelList
-                dataKey="month"
-                position="insideLeft"
-                offset={8}
-                className="fill-[--color-label]"
-                fontSize={12}
-              />
-              <LabelList
                 dataKey="orders"
                 position="right"
                 offset={8}
@@ -114,11 +121,11 @@ export function SalesPerMonth({ orders }: SalesByCategoryProps) {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
-        <div className="flex gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        <div className="flex gap-2 leading-none">
+          O mês de <span className="font-bold">{topMonth}</span> possui o maior número de vendas.
         </div>
         <div className="leading-none text-muted-foreground">
-          Showing total orders by month and year
+          Mostrando a quantidade de pedidos por mês
         </div>
       </CardFooter>
     </Card>
