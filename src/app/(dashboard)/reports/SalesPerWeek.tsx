@@ -31,16 +31,16 @@ interface SalesPerWeekProps {
 }
 
 export function SalesPerWeek({ orders }: SalesPerWeekProps) {
-  const chartData = useMemo(() => {
+  const { chartData, mostSalesDay } = useMemo(() => {
     // Função auxiliar para verificar se uma data está dentro da semana atual
     function isCurrentWeek(date: Date): boolean {
       const now = new Date()
       const startOfWeek = new Date(now)
-      startOfWeek.setDate(now.getDate() - now.getDay()) 
+      startOfWeek.setDate(now.getDate() - now.getDay())
       startOfWeek.setHours(0, 0, 0, 0)
 
       const endOfWeek = new Date(startOfWeek)
-      endOfWeek.setDate(startOfWeek.getDate() + 6) 
+      endOfWeek.setDate(startOfWeek.getDate() + 6)
       endOfWeek.setHours(23, 59, 59, 999)
 
       return date >= startOfWeek && date <= endOfWeek
@@ -58,10 +58,18 @@ export function SalesPerWeek({ orders }: SalesPerWeekProps) {
       }
     })
 
-    return daysOfWeek.map((day, index) => ({
-      day,
-      orders: weeklyOrderCount[index],
-    }))
+    const maxOrders = Math.max(...weeklyOrderCount) 
+    const mostSalesDayIndex = weeklyOrderCount.indexOf(maxOrders) 
+    const mostSalesDay = daysOfWeek[mostSalesDayIndex] 
+
+
+    return {
+      chartData: daysOfWeek.map((day, index) => ({
+        day,
+        orders: weeklyOrderCount[index],
+      })),
+      mostSalesDay
+    }
   }, [orders])
 
   return (
@@ -85,7 +93,7 @@ export function SalesPerWeek({ orders }: SalesPerWeekProps) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)} 
+              tickFormatter={(value) => value.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}
@@ -104,7 +112,7 @@ export function SalesPerWeek({ orders }: SalesPerWeekProps) {
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
-          ... foi o dia da semana que mais houve vendas
+          {mostSalesDay !== "" ? `${mostSalesDay} foi o dia da semana que mais houve vendas`: ""}
         </div>
         <div className="leading-none text-muted-foreground">
           Total de pedidos feitos em cada dia da semana atual

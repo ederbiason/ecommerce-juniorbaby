@@ -34,10 +34,10 @@ export default function SalesByCategoryChart() {
     }, [])    
 
     return (
-        <div className="w-full p-5 flex gap-5 h-fit">
-            <SalesByCategory orders={orders} />
+        <div className="w-full p-5 gap-5 grid grid-cols-2 h-full items-center ">
             <SalesPerMonth orders={orders} />
             <SalesPerWeek orders={orders} />
+            <SalesByCategory orders={orders} />
         </div>
     )
 }
