@@ -73,7 +73,7 @@ export function SalesPerWeek({ orders }: SalesPerWeekProps) {
   }, [orders])
 
   return (
-    <Card className="w-[450px]">
+    <Card className="w-[550px]">
       <CardHeader>
         <CardTitle>Pedidos por dia</CardTitle>
         <CardDescription>Mostrando vendas de Segunda a Domingo</CardDescription>

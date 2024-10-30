@@ -7,6 +7,7 @@ import { SalesByCategory } from "./SalesByCategory"
 import { Orders } from "@/interfaces"
 import { SalesPerMonth } from "./SalesPerMonth"
 import { SalesPerWeek } from "./SalesPerWeek"
+import { SalesPerState } from "./SalesPerState"
 
 export default function SalesByCategoryChart() {
     const [loading, setLoading] = React.useState(false)
@@ -34,10 +35,16 @@ export default function SalesByCategoryChart() {
     }, [])    
 
     return (
-        <div className="w-full p-5 gap-5 grid grid-cols-2 h-full items-center ">
-            <SalesPerMonth orders={orders} />
-            <SalesPerWeek orders={orders} />
-            <SalesByCategory orders={orders} />
+        <div className="w-full p-5 gap-5 flex flex-col h-full items-center mx-20">
+            <div className="flex gap-2 w-full justify-between">
+                <SalesByCategory orders={orders} />
+                <SalesPerWeek orders={orders} />
+            </div>
+            
+            <div className="flex gap-2 w-full justify-between">
+                <SalesPerState orders={orders} />
+                <SalesPerMonth orders={orders} />
+            </div>
         </div>
     )
 }
