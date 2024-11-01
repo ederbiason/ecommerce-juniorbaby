@@ -44,13 +44,11 @@ export const FormSchema = z.object({
     countInStock: z.coerce.number(),
     minThreshold: z.coerce.number(),
     images: z.any(),
-    isActive: z.boolean()
+    isActive: z.boolean().default(true)
 })
 
 export function ProductForm({ initialValues, existingImages, setExistingImages, productEditId }: ProductFormProps) {
     const router = useRouter()
-
-    console.log("valores iniciais: ", initialValues)
 
     const [loading, setLoading] = useState(false)
     const [categories, setCategories] = useState([])
@@ -79,67 +77,48 @@ export function ProductForm({ initialValues, existingImages, setExistingImages, 
         getCategories()
     }, [])
 
-    async function onSubmit(data: any) {
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
         try {
-            setLoading(true)
-            const imagesUrls = await uploadImageAndReturnUrls(selectedFiles)
-            data.images = imagesUrls
-            await axios.post("/api/products", data)
-            toast({
-                title: 'Sucesso',
-                description: "Produto criado com sucesso!",
-            })
-            router.push("/products")
+            setLoading(true);
+            const imagesUrls = await uploadImageAndReturnUrls(selectedFiles);
+            data.images = imagesUrls;
+
+            if (initialValues && initialValues !== undefined) {
+                // Editar produto existente
+                const newImages = await uploadImageAndReturnUrls(selectedFiles);
+                data.images = [...existingImages, ...newImages];
+                await axios.put(`/api/products/${productEditId}`, data);
+                toast({
+                    title: 'Sucesso',
+                    description: "Produto atualizado com sucesso!",
+                });
+                router.refresh();
+                router.back();
+            } else {
+                // Criar novo produto
+                await axios.post("/api/products", data);
+                toast({
+                    title: 'Sucesso',
+                    description: "Produto criado com sucesso!",
+                });
+                router.push("/products");
+            }
         } catch (error: any) {
             toast({
-                title: 'Error',
+                title: 'Erro',
                 description: error.message || error.response.data.message,
                 variant: 'destructive'
-            })
+            });
         } finally {
-            setLoading(false)
-        }
-    }
-
-    async function onEdit(data: z.infer<typeof FormSchema>) {
-        try {
-            setLoading(true)
-            const newImages = await uploadImageAndReturnUrls(selectedFiles)
-            const newAndExistingImages = [...existingImages, ...newImages]
-            data.images = newAndExistingImages
-
-            await axios.put(`/api/products/${productEditId}`, data)
-            toast({
-                title: 'Sucesso',
-                description: "Produto atualizado com sucesso!",
-            })
-
-            router.refresh()
-            router.back()
-        } catch (error: any) {
-            toast({
-                title: 'Error',
-                description: error.message || error.response.data.message,
-                variant: 'destructive'
-            })
-        } finally {
-            setLoading(false)
+            setLoading(false);
         }
     }
 
     const textButton = initialValues ? "Editar" : "Adicionar"
 
-    function onButtonClick(data: z.infer<typeof FormSchema>) {
-        if (textButton === "Adicionar") {
-            onSubmit(data)
-        } else {
-            onEdit(data)
-        }
-    }
-
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onButtonClick)} className="grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 mt-3">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="grid grid-cols-1 md:grid-cols-4 justify-center items-center gap-5 mt-3">
                 <div className="col-span-4">
                     <FormField
                         control={form.control}
