@@ -44,7 +44,7 @@ export default async function ProductInfo({ params }: { params: { productid: str
                         </div>
 
                         <h1 className="text-5xl my-5 font-semibold">
-                            R$ {product.price}
+                            {(product.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                         </h1>
 
                         <Rate disabled defaultValue={product.rating} />

@@ -151,7 +151,7 @@ export function ProductsTable() {
                                     </TableCell>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.category}</TableCell>
-                                    <TableCell>R$ {product.price}</TableCell>
+                                    <TableCell>{(product.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</TableCell>
                                     <TableCell>{product.countInStock}</TableCell>
                                     <TableCell>{product.minThreshold}</TableCell>
                                     <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>

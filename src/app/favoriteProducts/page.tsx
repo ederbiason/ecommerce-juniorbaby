@@ -46,7 +46,7 @@ export default function FavoriteProducts() {
                     <Rate disabled defaultValue={product.rating} />
                     <div className="flex gap-5 items-center">
                       <h1 className="font-semibold">
-                        R$ {product.price}
+                        {(product.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                       </h1>
                       <AddToCartBtn
                         product={product}

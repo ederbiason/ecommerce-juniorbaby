@@ -110,7 +110,7 @@ export default function Cart() {
                                     </div>
 
                                     <span className="col-span-1">
-                                        R$ {item.price}
+                                        {(item.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                     </span>
 
                                     <div className="col-span-1 border border-solid p-2 border-gray-400 flex gap-2 justify-between">
@@ -140,7 +140,7 @@ export default function Cart() {
                                     </div>
 
                                     <span className="col-span-1">
-                                        R$ {item.price * item.quantity}
+                                        {(item.price * item.quantity).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                     </span>
                                 </div>
                             ))
@@ -163,7 +163,7 @@ export default function Cart() {
                                 </span>
 
                                 <span>
-                                    R$ {subTotal}
+                                    {(subTotal).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                 </span>
                             </div>
 
@@ -173,7 +173,7 @@ export default function Cart() {
                                 </span>
 
                                 <span>
-                                    R$ {selectedShipping ? selectedShipping.price : 0}
+                                    {(selectedShipping ? selectedShipping.price : 0).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                 </span>
                             </div>
 
@@ -185,7 +185,7 @@ export default function Cart() {
                                 </span>
 
                                 <span>
-                                    R$ {total}
+                                    {(total).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                                 </span>
                             </div>
 

@@ -96,7 +96,7 @@ export function OrdersTable() {
                         <TableRow key={order._id}>
                             <TableCell>{order._id}</TableCell>
                             <TableCell>{moment(order.createdAt).format("DD MMM YYYY HH:mm")}</TableCell>
-                            <TableCell>R$ {order.total}</TableCell>
+                            <TableCell>{(order.total).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</TableCell>
                             <TableCell>
                                 {/* <Select
                                     onValueChange={(value) => {
