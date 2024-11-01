@@ -18,6 +18,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Orders } from "@/interfaces"
+import { Square } from "lucide-react"
 
 interface SalesByCategoryProps {
     orders: Orders[]
@@ -143,7 +144,7 @@ export function SalesByCategory({ orders }: SalesByCategoryProps) {
                                                     y={(viewBox.cy || 0) + 24}
                                                     className="fill-muted-foreground"
                                                 >
-                                                    Items
+                                                    Produtos vendidos
                                                 </tspan>
                                             </text>
                                         )
@@ -153,6 +154,14 @@ export function SalesByCategory({ orders }: SalesByCategoryProps) {
                         </Pie>
                     </PieChart>
                 </ChartContainer>
+                <div className="grid grid-cols-2 items-center justify-between w-full text-sm mb-5 pl-4">
+                    {chartData.map((category) => (
+                        <div className="flex items-center gap-2">
+                            <Square size={14} fill={category.fill} />
+                            {category.name} - {category.value}
+                        </div>
+                    ))}
+                </div>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
                 <div className="leading-none text-center">

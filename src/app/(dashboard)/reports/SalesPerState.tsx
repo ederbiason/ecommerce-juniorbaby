@@ -18,6 +18,7 @@ import {
     ChartTooltipContent,
 } from "@/components/ui/chart"
 import { Orders } from "@/interfaces"
+import { Square } from "lucide-react"
 
 interface SalesByCategoryProps {
     orders: Orders[]
@@ -131,17 +132,17 @@ export function SalesPerState({ orders }: SalesByCategoryProps) {
                                             >
                                                 <tspan
                                                     x={viewBox.cx}
-                                                    y={viewBox.cy}
-                                                    className="fill-foreground text-3xl font-bold"
+                                                    y={(viewBox.cy || 0) - 10}
+                                                    className="fill-muted-foreground"
                                                 >
-                                                    {totalSales.total}
+                                                    Total de pedidos
                                                 </tspan>
                                                 <tspan
                                                     x={viewBox.cx}
-                                                    y={(viewBox.cy || 0) + 24}
-                                                    className="fill-muted-foreground"
+                                                    y={(viewBox.cy || 0) + 18}
+                                                    className="fill-foreground text-3xl font-bold"
                                                 >
-                                                    Pedidos
+                                                    {totalSales.total}
                                                 </tspan>
                                             </text>
                                         )
@@ -151,6 +152,14 @@ export function SalesPerState({ orders }: SalesByCategoryProps) {
                         </Pie>
                     </PieChart>
                 </ChartContainer>
+                <div className="grid grid-cols-2 items-center justify-center w-full text-sm mb-5 pl-14">
+                    {chartData.map((state) => (
+                        <div className="flex items-center gap-2 ">
+                            <Square size={14} fill={state.fill} />
+                            {state.name} - {state.value}
+                        </div>
+                    ))}
+                </div>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
                 <div className="leading-none text-center">
