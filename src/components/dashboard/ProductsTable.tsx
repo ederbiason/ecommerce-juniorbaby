@@ -19,6 +19,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination"
 import { Button } from "@/components/ui/button"
 import { ListFilter, Pencil, Trash2 } from "lucide-react"
 import Link from "next/link"
@@ -49,6 +56,10 @@ export function ProductsTable() {
 
     const [activeProducts, setActiveProducts] = useState<ProductProps[]>([])
     const [inactiveProducts, setInactiveProducts] = useState<ProductProps[]>([])
+
+    const rowsPerPage = 10
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(rowsPerPage);
 
     const getProducts = async () => {
         try {
@@ -141,7 +152,7 @@ export function ProductsTable() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {activeProducts.map((product: ProductProps) => (
+                            {activeProducts.slice(startIndex, endIndex).map((product: ProductProps) => (
                                 <TableRow key={product._id}>
                                     <TableCell className="w-10 h-10">
                                         <img
@@ -151,7 +162,7 @@ export function ProductsTable() {
                                     </TableCell>
                                     <TableCell>{product.name}</TableCell>
                                     <TableCell>{product.category}</TableCell>
-                                    <TableCell>{(product.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}</TableCell>
+                                    <TableCell>{(product.price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</TableCell>
                                     <TableCell>{product.countInStock}</TableCell>
                                     <TableCell>{product.minThreshold}</TableCell>
                                     <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
@@ -210,10 +221,36 @@ export function ProductsTable() {
                             )}
                         </TableBody>
                     </Table>
+
+                    <Pagination className="py-3">
+                        <PaginationContent>
+                            <PaginationItem>
+                                <PaginationPrevious
+                                    className={
+                                        startIndex === 0 ? "pointer-events-none opacity-50" : undefined
+                                    }
+                                    onClick={() => {
+                                        setStartIndex(startIndex - rowsPerPage);
+                                        setEndIndex(endIndex - rowsPerPage);
+                                    }} />
+                            </PaginationItem>
+
+                            <PaginationItem>
+                                <PaginationNext
+                                    className={
+                                        endIndex === 100 ? "pointer-events-none opacity-50" : undefined
+                                    }
+                                    onClick={() => {
+                                        setStartIndex(startIndex + rowsPerPage)
+                                        setEndIndex(endIndex + rowsPerPage)
+                                    }} />
+                            </PaginationItem>
+                        </PaginationContent>
+                    </Pagination>
                 </TabsContent>
 
                 <TabsContent value="inactiveProducts">
-                <Table className="">
+                    <Table className="">
                         <TableCaption>Lista dos produtos</TableCaption>
                         <TableHeader>
                             <TableRow>
@@ -299,9 +336,6 @@ export function ProductsTable() {
                     </Table>
                 </TabsContent>
             </Tabs>
-
-
-
         </div>
     )
 }

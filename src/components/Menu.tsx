@@ -8,7 +8,7 @@ export function Menu() {
   const pathname = usePathname()
 
   return (
-    <div className="bg-zinc-100 flex w-1/5 h-screen flex-col gap-7 p-6">
+    <div className="bg-zinc-100 flex w-1/5 flex-col gap-7 p-6">
         <Link href="/products" className={clsx("flex items-center gap-4", pathname == "/products" && "text-blue-600")}>
             <PackageSearch />
             Produtos
