@@ -4,6 +4,7 @@ import ProductImages from "./ProductImages"
 import { AddToCartBtn } from "@/components/client/AddToCartBtn"
 import { ProductReviews } from "./ProductReviews"
 import { Rate } from "antd"
+import ProductSizes from "./ProductSizes"
 
 export default async function ProductInfo({ params }: { params: { productid: string } }) {
     async function getProduct(productid: string) {
@@ -46,6 +47,13 @@ export default async function ProductInfo({ params }: { params: { productid: str
                         <h1 className="text-5xl my-5 font-semibold">
                             {(product.price).toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}
                         </h1>
+
+                        {product.category === "Roupas" && (
+                            <ProductSizes 
+                                product={product}
+                                
+                            />
+                        )}
 
                         <Rate disabled defaultValue={product.rating} />
 

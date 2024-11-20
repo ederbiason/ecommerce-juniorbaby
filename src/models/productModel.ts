@@ -46,8 +46,20 @@ const productSchema = new mongoose.Schema({
         default: true,
         required: false,
     },
+    size: {
+        type: [Number],
+        required: false,
+        default: [1,2,3]
+    }
 }, {
     timestamps: true
+})
+
+productSchema.pre('save', function (next) {
+    if (this.category !== 'Roupas') {
+        this.size = undefined
+    }
+    next()
 })
 
 // delete old model if exists
