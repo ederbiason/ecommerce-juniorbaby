@@ -165,7 +165,7 @@ export function ProductsTable() {
                                     <TableCell>{(product.price).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}</TableCell>
                                     <TableCell>{product.countInStock}</TableCell>
                                     <TableCell>{product.minThreshold}</TableCell>
-                                    <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
+                                    <TableCell className="text-green-500">Disponpível</TableCell>
                                     <TableCell className="flex items-center gap-2">
                                         <Dialog>
                                             <DialogTrigger asChild>
@@ -278,7 +278,7 @@ export function ProductsTable() {
                                     <TableCell>R$ {product.price}</TableCell>
                                     <TableCell>{product.countInStock}</TableCell>
                                     <TableCell>{product.minThreshold}</TableCell>
-                                    <TableCell className="text-green-500">{product.minThreshold < product.countInStock ? "Disponível" : "Indisponível"}</TableCell>
+                                    <TableCell className="text-red-500">Indisponível</TableCell>
                                     <TableCell className="flex items-center gap-2">
                                         <Dialog>
                                             <DialogTrigger asChild>
