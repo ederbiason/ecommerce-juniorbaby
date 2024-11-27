@@ -96,6 +96,7 @@ export function LoginForm() {
             )}
           />
 
+          {/* 
           <FormField
             control={form.control}
             name="remember"
@@ -108,9 +109,11 @@ export function LoginForm() {
                   />
                 </FormControl>
                 <div className="w-full flex justify-between leading-none">
+                  
                   <FormLabel>
                     Lembre-se de mim.
                   </FormLabel>
+                  
 
                   <FormLabel>
                     <Link
@@ -124,6 +127,7 @@ export function LoginForm() {
               </FormItem>
             )}
           />
+          */} 
 
           <Button
             className="w-full bg-blue-600 hover:bg-blue-800 font-semibold text-md"
@@ -134,12 +138,14 @@ export function LoginForm() {
           </Button>
         </form>
 
-        <GoogleSignInButton
+        {/* 
+          <GoogleSignInButton
 
         >
           <Chrome />
           Logar com o Google
         </GoogleSignInButton>
+        */}
 
         <div className="flex gap-2">
           <p className="text-gray-500">Não tem uma conta?</p>

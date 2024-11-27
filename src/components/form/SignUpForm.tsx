@@ -155,12 +155,12 @@ export function SignUpForm() {
                         Cadastrar
                     </Button>
                 </form>
-
+                {/*
                 <GoogleSignInButton>
                     <Chrome />
                     Cadastrar com o Google
                 </GoogleSignInButton>
-
+                */} 
                 <div className="flex gap-2">
                     <p className="text-gray-500">Já possui uma conta?</p>
 
