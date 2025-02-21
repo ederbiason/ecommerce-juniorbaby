@@ -154,7 +154,7 @@ export function SalesPerState({ orders }: SalesByCategoryProps) {
                 </ChartContainer>
                 <div className="grid grid-cols-2 items-center justify-center w-full text-sm mb-5 pl-14">
                     {chartData.map((state) => (
-                        <div className="flex items-center gap-2 ">
+                        <div className="flex items-center gap-2" key={state.name}>
                             <Square size={14} fill={state.fill} />
                             {state.name} - {state.value}
                         </div>

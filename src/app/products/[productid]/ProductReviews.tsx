@@ -43,6 +43,12 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
         }
     }
 
+    useEffect(() => {
+        if (product._id) {
+            getReviews()
+        }
+    }, [product._id])
+
     const onSubmiReview = async () => {
         try {
             setLoadingSubmit(true)
@@ -72,10 +78,6 @@ export function ProductReviews({ product }: { product: ProductInterface }) {
             setLoadingSubmit(false)
         }
     }
-
-    useEffect(() => {
-        getReviews()
-    }, [])
 
     return (
         <div className="mt-8">

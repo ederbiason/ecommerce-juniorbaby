@@ -156,7 +156,7 @@ export function SalesByCategory({ orders }: SalesByCategoryProps) {
                 </ChartContainer>
                 <div className="grid grid-cols-2 items-center justify-between w-full text-sm mb-5 pl-4">
                     {chartData.map((category) => (
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2" key={category.name}>
                             <Square size={14} fill={category.fill} />
                             {category.name} - {category.value}
                         </div>

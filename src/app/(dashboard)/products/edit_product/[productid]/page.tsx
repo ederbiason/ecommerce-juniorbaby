@@ -40,8 +40,6 @@ export default function EditProduct({ params }: { params: any }) {
         }
     }
 
-    
-
     useEffect(() => {
         getProduct()
     }, [])
