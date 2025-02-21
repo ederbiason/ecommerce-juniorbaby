@@ -70,4 +70,4 @@ src/
 
 ## 📝 License
 This project is under the MIT License.
-[MIT](https://github.com/ederbiason/ecommerce-juniorbaby/blob/main/LICENSE)
+[MIT](https://github.com/ederbiason/ecommerce-juniorbaby/blob/master/LICENSE)
