@@ -38,7 +38,7 @@ export function CheckoutForm({ total, setShowCheckoutModal }: CheckoutFormProps)
             const result = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: "http://localhost:3000/cart",
+                    return_url: `${process.env.domain}/cart`,
                 },
                 redirect: "if_required"
             });
